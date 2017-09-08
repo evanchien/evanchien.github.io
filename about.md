@@ -23,4 +23,4 @@ Currently a MSR (Robotics) student at Northwestern University.
 ### Specialties
 * Optical design of display technologies
 * Backlight/illumination system design
-* Camera system design (Lens, CMOS/CCD, iamge tuning)
+* Camera system design (Lens, CMOS/CCD, Image tuning)
