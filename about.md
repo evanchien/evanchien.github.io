@@ -6,16 +6,21 @@ image: http://unsplash.it/400?random
 ---
 
 ## Overview
-BS in Engineering Science at National Cheng Kung University and MS in Opto-Electronic engineering at National Taiwan University in Taiwan.
+BS in Engineering Science at National Cheng Kung University (2000-2004)
+MS in Opto-Electronic engineering at National Taiwan University (2004-2006)
 
-Advanced display Engineer of Garmin International Corp (2007-2016)
-Assistant manager of HTC corp
+Opto-mechanical Engineer at Toppoly Corp.
+Advanced display Engineer at Garmin International Corp (2007-2016)
+Assistant manager at HTC corp
 
-Currently an MSR (Robotics) student at Northwestern University.
-
-
+Currently a MSR (Robotics) student at Northwestern University.
 
 ### Research interests
-* Interest 1
-* Interest 2
-* Interest 3
+* Human Computer Interaction
+* 
+* 
+
+### Specialties
+* Optical design of display technologies
+* Backlight/illumination system design
+* Camera system design (Lens, CMOS/CCD, iamge tuning)
