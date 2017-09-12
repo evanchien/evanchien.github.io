@@ -17,8 +17,8 @@ Currently a MSR (Robotics) student at Northwestern University.
 
 ### Research interests
 * Human Computer Interaction
-* 
-* 
+* Display and sensor design/application
+*
 
 ### Specialties
 * Optical design of display technologies
