@@ -1,488 +1,243 @@
-# MSR Student Portfolio Template
+# Portfolio Jekyll Theme
 
+This is a Jekyll theme built using the [DevTips Starter Kit](http://devtipsstarterkit.com/) as a foundation for starting, and following closely the amazing tutorial by [Travis Neilson over at DevTips](https://www.youtube.com/watch?v=T6jKLsxbFg4&list=PL0CB3OvPhDA_STygmp3sDenx3UpdOMk7P). The purpose of this theme is to provide a clean and simple website for your portfolio. Emphasis is placed on your projects, which are shown front and center on the home page.
 
+Everything that you will ever need to know about this Jekyll theme is included in the README below, which you can also find in [the demo site](https://lenpaul.github.io/portfolio-jekyll-theme/).
 
-## Jekyll overview
+![alt-text](https://cloud.githubusercontent.com/assets/8409329/26227987/f2583642-3c03-11e7-81c4-28a9353c91ae.jpg)
 
-### Built with Jekyll
-Jekyll is a simple, blog-aware, static site generator. It takes a template
-directory containing raw text files in various formats, runs it through Markdown
-and Liquid converters, and spits out a complete, ready-to-publish static website
-suitable for serving with your favorite web server. Jekyll also happens to be
-the engine behind GitHub Pages, which means you can use Jekyll to host your
-project's page, blog, or website from GitHub's servers for free (taken from
-Jekyll's website: http://jekyllrb.com/docs/home/).
+## Notable features
 
-### Get your workstation set up
-To test your website locally, you will need the following packages:
+* Compatible with GitHub Pages.
 
-* <a href="https://www.ruby-lang.org/en/downloads/">Ruby</a>
-* <a href="http://rubygems.org/pages/download">RubyGems</a>
-* <a href="http://nodejs.org">NodeJS</a>
-* <a href="http://jekyllrb.com/docs/installation">Jekyll</a>
+* Support for Jekyll's built-in Sass/SCSS preprocessor and data files for making customizing easier.
 
-To install from `apt-get`, you can just run
+* [Google Analytics](https://www.google.com/analytics/) support.
 
-```
-sudo apt-get install ruby ruby-dev nodejs nodejs-dev jekyll
-```
+* Commenting support powered by [Disqus](https://disqus.com/).
 
-On Ubuntu 14.04, the versions of `ruby` and `jekyll` that are on `apt-get` are a
-bit out of date. Thus even, if you install all of the packages from `apt-get`
-using the above command, you are likely to get errors when running commands in
-the [Local previewing](#local-previewing) section below. If you see errors about
-the `--watch` variable when running `jekyll build --watch`, run the following
-commands to use `rvm` (Ruby Version Manager) to install a new version of `ruby`
-and `jekyll`. Note, in Ubuntu 16.04 the versions of `ruby` and `jekyll` seem to
-be up-to-date enough to avoid any issues.
+* Optimized for search engines.
 
-```shell
-1 $  sudo apt-get install libgdbm-dev libncurses5-dev automake libtool bison \
-      libffi-dev curl icedtea-7-jre-jamvm nodejs nodejs-dev
-2 $  curl -sSL https://rvm.io/mpapis.asc | gpg --import -
-3 $  curl -L https://get.rvm.io | bash -s stable
-4 $  source ~/.rvm/scripts/rvm
-5 $  echo "source ~/.rvm/scripts/rvm" >> ~/.bashrc
-6 $  rvm install ruby --latest
-7 $  echo "gem: --no-ri --no-rdoc" > ~/.gemrc
-8 $  gem update --system
-9 $  gem install jekyll
-```
-* line 1 installs dependencies for `rvm`
-* lines 2-5 configure your environment to use `ruby` versions installed from
-`rvm` instead of from `apt-get`
-* line 6 updates `rvm` itself
-* line 7 sets `gem` to not install documentation locally (this is optional)
-* line 8 updates `gem`
-* line 9 installs the latest `jekyll`
+* LaTeX support through [MathJax](https://www.mathjax.org/).
 
-### Local previewing
+## Table of Contents
 
-You'll first need a Jekyll site. If you are interested in using this template,
-you should clone this repo (or create a Fork of this repo and clone that copy).
-Then change directories into the root of the Jekyll site. For example,
-```
-cd msr-student-template
-```
-In one terminal, build the Jekyll site, watching for
-any changes (must be run in the site root directory)
-```
-$  jekyll build --watch
-```
-In another terminal, start a local server (must be run in site root directory)
-```
-$  jekyll serve
-```
-View the site in your browser at
-```
-localhost:4000/msr-student-template/
-```
+1. [Introduction](#introduction)
+   1. [What is Jekyll](#what-is-jekyll)
+   2. [Never Used Jeykll Before?](#never-used-jekyll-before)
+2. [Installation](#installation)
+   1. [GitHub Pages Installation](#github-pages-installation)
+   2. [Local Installation](#local-installation)
+   3. [Directory Structure](#directory-structure)
+   4. [Starting From Scratch](#starting-from-scratch)
+3. [Configuration](#configuration)
+   1. [Sample Posts](#sample-posts)
+   2. [Site Variables](#site-variables)
+   3. [Adding Menu Pages](#adding-menu-pages)
+   4. [Posts](#posts)
+   5. [Layouts](#layouts)
+   6. [YAML Front Block Matter](#yaml-front-block-matter)
+4. [Features](#features)
+   1. [Design Considerations](#design-considerations)
+   2. [Disqus](#disqus)
+   3. [Google Analytics](#google-analytics)
+   4. [RSS Feeds](#rss-feeds)
+   5. [Social Media Icons](#social-media-icons)
+   6. [MathJax](#mathjax)
+   7. [Syntax Highlighting](#syntax-highlighting)
+   8. [Markdown](#markdown)
+5. [Everything Else](#everything-else)
+6. [Contributing](#Contributing)
+7. [Questions?](#questions)
+8. [Credits](#credits)
+9. [License](#license)
 
+## Introduction
 
+Portfolio Jekyll Theme is a Jekyll theme that was built to be 100% compatible with [GitHub Pages](https://pages.github.com/). If you are unfamiliar with GitHub Pages, you can check out [their documentation](https://help.github.com/categories/github-pages-basics/) for more information. [Jonathan McGlone's guide](http://jmcglone.com/guides/github-pages/) on creating and hosting a personal site on GitHub is also a good resource.
 
-## File structure
-```
-|-- README.md (this)
-|-- _config.yml (overall configuration file for the site)
-|-- _includes (all the markup partials)
-|   |-- footer.html
-|   |-- head.html
-|   |-- header.html
-|-- _layouts (page markup templates)
-|   |-- about.html
-|   |-- contact.html
-|   |-- main.html
-|   |-- project.html
-|-- _projects (markdown files that make up the "projects" jekyll collection)
-|   |-- 2014-09-22-project-1.md
-|   |-- 2014-09-23-project-2.md
-|   |-- 2014-09-24-project-3.md
-|   |-- 2014-09-25-project-4.md
-|   |-- 2014-09-26-project-5.md
-|   |-- 2014-09-27-project-6.md
-|   |-- 2014-09-28-project-7.md
-|   |-- 2014-09-29-project-8.md
-|-- _site (the entire site after it is processed by Jekyll)
-|   |-- README.md
-|   |-- about
-|   |-- contact
-|   |-- feed.xml
-|   |-- index.html
-|   |-- projects
-|   |-- public
-|-- about.md (about page markdown)
-|-- contact.md (contact page markdown)
-|-- feed.xml (contains general information about Jekyll's usage)
-|-- index.html (home page of the site)
-|-- public (static content including fonts, images, js, and css files)
-|   |-- fonts
-|   |-- images
-|   |-- javascripts
-|   |-- stylesheets
-```
+### What is Jekyll?
 
+Jekyll is a simple, blog-aware, static site generator for personal, project, or organization sites. Basically, Jekyll takes your page content along with template files and produces a complete website. For more information, visit the [official Jekyll site](https://jekyllrb.com/docs/home/) for their documentation.
 
+### Never Used Jekyll Before?
 
-## More on how Jekyll works
+The beauty of hosting your website on GitHub is that you don't have to actually have Jekyll installed on your computer. Everything can be done through the GitHub code editor, with minimal knowledge of how to use Jekyll or the command line. All you have to do is add your posts to the `_posts` directory and edit the `_config.yml` file to change the site settings. With some rudimentary knowledge of HTML and CSS, you can even modify the site to your liking. This can all be done through the GitHub code editor, which acts like a content management system (CMS).
 
-### The Jekyll engine
-First, if you look inside the \_site directory, you'll see that no directories
-or files there begin with an underscore (\_). The contents of that directory are
-the end result of Jekyll's processing engine. All of the files and directories
-in the root directory of the repository that do begin with an underscore, on the
-other hand, are "raw". They either include markup that will be included within
-pages of the final site or they contain markdown and "Front Matter" (which I'll
-explain later) that will be converted into markup by Jekyll's engine. One of the
-two commands that you need to run in order to host the site on a local server:
-```
-jekyll build --watch
-```
-runs that engine, processing and reprocessing the "raw" files every time you
-make a change to a file. The files and directories in the root directory of the
-repository that _don't_ begin with an underscore are ignored by Jekyll and will
-remain the exact same in the _site directory.
+## Installation
 
-### Front matter
-Any file that contains a YAML front matter block will be processed by Jekyll as
-a special file. The front matter must be the first thing in the file and must
-take the form of valid YAML, set between triple-dashed lines (taken from
-Jekyll's documentation: http://jekyllrb.com/docs/frontmatter/). Here's a basic
-example that you'll find in the [index.html](index.html) file:
-```
----
-layout: main
-title: Portfolio
----
-```
-This first item tells Jekyll to take all of the markup in the file and plug it
-into the [_layouts/main.html](_layouts/main.html) template to take the place of
-the ```{{ content }}``` variable found in that template file. The second item
-tells Jekyll to create a variable, ```page.title```, that you can use in the
-markup of the template. For example, in _layouts/main.html, you could write:
-```
-<head>
-	<title>{{ page.title }}</title>
-</head>
-```
-and that would render as:
-```
-<head>
-	<title>Portfolio</title>
-</head>
-```
-in the html file that is output by Jekyll.
+### GitHub Pages Installation
 
-### Collections
-Collections allow you to define a new type of document that can be somewhat
-conceptualized as an object type, each having its own unique properties and
-namespaces. These collections are declared in the [_config.yml](_config.yml)
-file:
-```
-collections:
-  projects:
-    output: true
-    permalink: /projects/:path/
-```
-For this site, we only use one collections: projects, the contents of which can
-be found in the _projects directory. Notice that this directory name begins with
-an underscore. This is because each file in it only contains some combination of
-markdown and front-matter and will be processed by Jekyll's engine. Let's look
-at projects/2014-09-22-project-1.md as an example:
-```
----
-layout: project
-title: Project 1
-date: September 22, 2014
-image: http://unsplash.it/400?random
----
+To start using Portfolio Jekyll Theme right away with GitHub Pages, [fork the Portfolio Jekyll Theme repository on GitHub](https://github.com/LeNPaul/portfolio-jekyll-theme/fork). From there, you can rename your repository to 'USERNAME.github.io', where 'USERNAME' is your GitHub username, and edit the `settings.yml` file in the `_data` folder to your liking. Ensure that you have a branch named `gh-pages`. Your website should be ready immediately at 'http://USERNAME.github.io'. Note: if you are hosting several sites under the same GitHub username, then you will have to use [Project Pages instead of User Pages](https://help.github.com/articles/user-organization-and-project-pages/) - just change the repository name to something other than 'http://USERNAME.github.io'.
 
-## Overview
-Lorem ipsum dolor sit amet, tota primis copiosae id quo. Melius eligendi
-elaboraret pri et, eam menandri platonem te. Tollit iudicabit gloriatur per ad.
-Ad diceret recteque eum, eu commodo petentium qui. No aliquid delectus eam,
-dicta eripuit convenire te nec. Vix no veritus dignissim. Erat ferri veniam ut
-eos, pro ex eius error intellegat, his te graecis oporteat honestatis.
+Head over to the `_posts` directory to view all the posts that are currently on the website, and to see examples of what post files generally look like. You can simply just duplicate the template post and start adding your own content.
 
-### Topic 1
-His nemore audiam consequat ad, no augue choro assueverit mei. Zril offendit
-tincidunt ne quo. At commodo integre alienum sea, cu vocent fuisset suscipit
-nam. Eum ex tation omnesque adversarium, mutat autem putant te nam. Id vix
-facilis complectitur, vis vitae vivendo euripidis ea, fugit eirmod an vix...
-```
-This file represents a project in the projects collection and contains both YAML
-front matter and Markdown. You can see how powerful collections are if we take a
-look at a snippet of index.html:
-```
-<ul id="portfolio-gallery">
-    {% for project in site.projects %}
-        <li>
-            <a href="{{ site.baseurl }}{{ project.url }}">
-                <img src="{{ project.image }}">
-                <h2>{{ project.title }}</h2>
-            </a>
-        </li>
-    {% endfor %}
-</ul>
-```
-The ```{% %}``` tags represent liquid syntax and their contents are processed by
-Jekyll to render static HTML in the final site. You can see that all of the
-projects in the projects collection can be referenced with ```site.projects```
-and iterated through with a for loop. In this specific for loop, for each
-project in the projects collection, we pull its image and title using ```{{
-}}``` tags. All of a particular project's information is defined in its markdown
-file just like the one which we saw above. You can find more useful information
-about collections in Jekyll's website (http://jekyllrb.com/docs/collections/).
+### Local Installation
 
+For a full local installation of Portfolio Jekyll Theme, [download your own copy of Portfolio Jekyll Theme](https://github.com/LeNPaul/portfolio-jekyll-theme/archive/gh-pages.zip) and unzip it into it's own directory. From there, open up your favorite command line tool, enter `bundle install`, and then enter `jekyll serve`. Your site should be up and running locally at [http://localhost:4000](http://localhost:4000).
 
+### Directory Structure
 
-## Maintaining the site
-
-### Adding projects
-To add a project, just create a .md file in the _projects directory with front
-matter at the beginning that follows this format (taken from
-2014-09-22-project-1.md):
-```
----
-layout: project
-title: Project 1
-date: September 22, 2014
-image: http://unsplash.it/400?random
----
-```
-Following that front matter, just add content in regular markdown.
-
-### Editing appearance
-
-The appearance of the site is defined entirely by the
-interaction of several key HTML files and CSS defined to go along with them. The
-following describes the importance of each of the HTML files:
-
-* [_layouts/main.html](https://github.com/NU-MSR/msr-student-template/blob/gh-pages/_layouts/main.html) provides the general structure of every page
-  on the site. It includes common elements that are on all of the pages
-  including content for the HTML `<head>` tag, and page footers/headers. These
-  common elements are all defined in the `_includes` directory.
-* The other three html files inside of the `_layouts` directory define the
-  appearance of the about page, the contact page, and each of the project
-  entries. The [index.html](https://github.com/NU-MSR/msr-student-template/blob/gh-pages/index.html) page defines the project grid that is
-  shown on the site's base URL
-* Note that all of these HTML files are of the `main` layout. Thus each of these
-  pages has the same `<head>` tag, and footer/header.
-
-These HTML files are only half of the story; the other requirement for defining
-appearance is the CSS to go along with the HTML. The CSS for this site is
-generated using [SASS](http://sass-lang.com/). Quoting from the [SASS
-documentation](http://sass-lang.com/documentation/file.SASS_REFERENCE.html):
-
-> Sass is an extension of CSS that adds power and elegance to the basic
-> language. It allows you to use variables, nested rules, mixins, inline imports,
-> and more, all with a fully CSS-compatible syntax. Sass helps keep large
-> stylesheets well-organized, and get small stylesheets up and running quickly,
-> particularly with the help of the Compass style library.
-
-Basically we use the syntactical convenience of SASS to enable easier generation
-of our CSS. What this means is that if we want to update our site's CSS, we
-need to edit the [public/stylesheets/style.scss](public/stylesheets/style.scss)
-file and use SASS to build the corresponding CSS. To build the CSS file, `cd` to
-the `<project_root>/public/stylesheets/` directory and then execute
+If you are familiar with Jekyll, then the Portfolio Jekyll Theme directory structure shouldn't be too difficult to navigate. The following some highlights of the differences you might notice between the default directory structure. More information on what these folders and files do can be found in the [Jekyll documentation site](https://jekyllrb.com/docs/structure/).
 
 ```bash
-sass --watch style.scss:style.css
+Portfolio Jekyll Theme/
+├── _data                      # Data files
+|  └── settings.yml            # Theme settings and custom text
+├── _includes                  # Theme includes
+├── _layouts                   # Theme layouts (see below for details)
+├── _posts                     # Where all your posts will go
+├── assets                     # Style sheets and images are found here
+|  ├── css                     # Style sheets go here
+|  |  └── all.sass             # Main SASS file
+|  └── img                     # Images go here
+├── pages                      # Menu pages
+├── projects                   # Project pages
+├── _config.yml                # Site build settings
+├── Gemfile                    # Ruby Gemfile for managing Jekyll plugins
+└── index.md                   # Home page
 ```
 
-As you edit the SCSS file, the CSS file will be automatically updated!
+### Starting From Scratch
 
-To install SASS you can either use `apt-get` or `gem`:
+To completely start from scratch, simply delete all the files in the `_posts`, `assets/img`, and `menu` folder, and add your own content. You may also replace the `README.md` file with your own README. Everything in the `_data` folder and `_config.yml` file can be edited to suit your needs. You may also change the `favicon.ico` file to your own favicon.
 
-```bash
-sudo apt-get install ruby-sass
-```
-or
-```bash
-gem install sass
-```
+## Configuration
 
-### Changing site metadata
+### Sample Posts
 
-There are several things that you may want to change that is unrelated to adding
-content. Some of these items are described below.
+Visit the [the demo site](https://lenpaul.github.io/portfolio-jekyll-theme/) to find sample posts that show what different types of text formatting look like. You can find these posts in the `_posts` folder, which show what the best practices for setting up your own site are.
 
-* __Site Base URL__ You can use the functionality from GitHub Pages to change
-  your portfolio's base URL. See
-  [their documentation](https://help.github.com/articles/user-organization-and-project-pages/).
-  Note that if you change the name of your repository on GitHub the URL will
-  changes (as described in their docs), you'll want to also update the `baseurl`
-  field in the [_config.yml](https://github.com/NU-MSR/msr-student-template/blob/gh-pages/_config.yml) file to correspond to this new name.
-* __Site Title__ The site title is in the header of every HTML page after Jekyll
-  builds your site. The default value is `Portfolio Template`. You'll want to
-  customize this in the [_config.yml](https://github.com/NU-MSR/msr-student-template/blob/gh-pages/_config.yml) file as it shows up as the
-  tab title in most browsers.
-* __Favicon__ The site is set to add a
-  [favicon](https://en.wikipedia.org/wiki/Favicon) to each page. If you'd like
-  to customize this, either replace the
-  [public/images/msr-student-template-favicon.png](https://github.com/NU-MSR/msr-student-template/blob/gh-pages/public/images/msr-student-template-favicon.png)
-  with your own file. Or, edit the [favicon line](https://github.com/NU-MSR/msr-student-template/blob/gh-pages/_includes/head.html#L10) to
-  point to a different image.
-* __Title on Top Banner__ By default the top strip contains the words _My
-  Portfolio_ that link the site's homepage. If you'd like to customize this
-  text, edit [this line](https://github.com/NU-MSR/msr-student-template/blob/gh-pages/_includes/header.html#L3) in the
-  [_includes/header.html](https://github.com/NU-MSR/msr-student-template/blob/gh-pages/_includes/header.html) file.
+### Site Variables
 
+To change site build settings, edit the `_config.yml` file found in the root of your repository, which you can tweak however you like. More information on configuration settings and plugins can be found on [the Jekyll documentation site](https://jekyllrb.com/docs/configuration/). This is also where you will be able to customize the title, description, and the author/owner of your site.
 
-### Changing pictures
+If you are hosting your site on GitHub Pages, then committing a change to the `_config.yml` file will force a rebuild of your site with Jekyll. Any changes made should be viewable soon after. If you are hosting your site locally, then you must run `jekyll serve` again for the changes to take place.
 
-The default template has random internet pictures. You will, of course, be
-adding your own pictures. There are many ways to do this, but below we will
-present two possible ways. The easy way (described first) requires no editing of
-the site configuration, but it is less maintainable in the long term. The hard
-way is slightly more complicated, but it gives you a bit more control and helps
-you understand how Jekyll works (the complex method is recommended).
+In the `settings.yml` file found in the `_data` folder, you will be able to customize your site settings, such as setting Disqus comments, Google Analytics, what shows up in your menu, and social media information.
 
+### Adding Menu and Project Pages
 
-#### Changing pictures: the easy way
-To change the pictures displayed on a project, you should first copy the
-pictures you want into
-```
-public/images/
-```
+The menu pages are found in the `menu` folder in the root directory, and can be added to your menu in the `settings.yml` file. Similarly, the project pages are found in the `projects` folder in the root directory, and can be added to your site in the `settings.yml` file. The images for your portfolio projects are stored in the `assets/img/projects/proj-n` folder, and should be named `thumb.jpg`.
 
-To change images in a project file the image field should have this format
-```
-/msr-student-template/public/images/picture.[extension]
-```
-For example, here is the front matter for a project with a custom image.
+### Posts
+
+You will find example posts in your `_posts` directory. Go ahead and edit any post and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run `jekyll serve`, which launches a web server and auto-regenerates your site when a file is updated.
+
+To add new posts, simply add a file in the `_posts` directory that follows the convention of `YYYY-MM-DD-name-of-post.md` and includes the necessary front matter. Take a look at any sample post to get an idea about how it works. If you already have a website built with Jekyll, simply copy over your posts to migrate to Portfolio Jekyll Theme.
+
+### Layouts
+
+There are two main layout options that are included with Portfolio Jekyll Theme: post and page. Layouts are specified through the [YAML front block matter](https://jekyllrb.com/docs/frontmatter/). Any file that contains a YAML front block matter will be processed by Jekyll. For example:
+
 ```
 ---
-layout: project
-title: Agamenon Contingency
-date: May 27, 1939
-image: /msr-student-template/public/images/tower_of_babel.jpg
+layout: post
+title: "Example Post"
 ---
 ```
 
-Note that the name of your repo on GitHub will define the exact path that you
-use to an image. If you change the name of your repo to be `portfolio`, then the
-image in the above example would be
-`/portfolio/public/images/tower_of_babel.jpg`. This is an example of why the
-"easy" way is less extensible/maintainable. If you wanted to rename your repo,
-all projects would need to be edited.
+Examples of what posts looks like can be found in the `_posts` directory, which includes this post you are reading right now. Posts are the basic blog post layout, which includes a header image, post content, author name, date published, social media sharing links, and related posts.
 
-#### Changing pictures: the complex way
+Pages are essentially the post layout without any of the extra features of the posts layout. An example of what pages look like can be found at the [About](https://lenpaul.github.io/portfolio-jekyll-theme/pages/about.html) and [Contacts](https://lenpaul.github.io/portfolio-jekyll-theme/pages/contact.html).
 
-This method works by editing the code in the template HTML files that Jekyll
-uses when building the site. In all of the template HTML files we will add the
-path to where we store our images. Then in the `image` field of any Markdown
-file's front matter, we will just put the filename. So for example, let's say we
-want to change the how images are going to work for the project pages. We would
-go in and edit the HTML that inserts images to read
-``` html
-		<img id="project-image" src="{{ site.baseurl }}/public/images/{{ page.image }}">
-```
-instead of
-``` html
-		<img id="project-image" src="{{ page.image }}">
-```
+In addition to the two main layout options above, there is also a custom layout that have been created for the [home page](https://lenpaul.github.io/portfolio-jekyll-theme/). These are simply just page layouts with some [Liquid template code](https://shopify.github.io/liquid/). Check out the `index.html` file in the root directory for what the code looks like.
 
-We would then put the image we want into the `public/images/` directory. Then on
-a project Markdown file's front matter, we would just put the image filename
-with no path. For example,
+### YAML Front Block Matter
+
+The recommended YAML front block is:
+
 ```
 ---
-layout: project
-title: Agamenon Contingency
-date: May 27, 1939
-image: tower_of_babel.jpg
+layout:
+title:
 ---
 ```
 
-To see all of the required changes for custom images, check out
-[this commit](https://github.com/NU-MSR/msr-student-template/commit/7f40890361af2929ed297950c9ed7752aea339cb)
-from the
-[custom_images](https://github.com/NU-MSR/msr-student-template/tree/custom_images)
-branch of this repository. If you implement all of the changes shown in this
-commit you should be all set. After editing, the files below should look like
-they do in the following links:
+`layout` specifies which layout to use, and `title` is the page or post title. Have a look at some posts in the `_posts` directory to see how these variables are set.
 
-1. [_layouts/about.html](https://github.com/NU-MSR/msr-student-template/blob/custom_images/_layouts/about.html)
-2. [_layouts/contact.html](https://github.com/NU-MSR/msr-student-template/blob/custom_images/_layouts/contact.html)
-3. [_layouts/project.html](https://github.com/NU-MSR/msr-student-template/blob/custom_images/_layouts/project.html)
-4. [index.html](https://github.com/NU-MSR/msr-student-template/blob/custom_images/index.html)
+## Features
 
-### Math in project posts
+### Design Considerations
 
-The [_includes/head.html](_includes/head.html) contains the following snippet:
+Portfolio Jekyll Theme was designed to be a minimalist theme in order for the focus to remain on your content. For example, links are signified mainly through coloured font, in order to maximize the perceived affordance of clickability (I originally just wanted to make the links a darker shade of grey).
 
-```html
-	<script type="text/javascript"
-			src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-	</script>
-```
+### Disqus
 
-This snippet tells every page that you can use
-[MathJax](http://docs.mathjax.org/en/latest/start.html) to render mathematics.
-According the the MathJax site "MathJax is an open-source JavaScript display
-engine for LaTeX, MathML, and AsciiMath notation that works in all modern
-browsers." Basically this means you can type math equations, usually using
-[LaTeX](https://www.latex-project.org/) syntax, then when your page loads, the
-equations will be sent to the MathJax servers. These servers will process the
-equations and send your site back properly formatted equations to display. Check
-out the [Project 3 source](_projects/00-2014-09-24-project-3.md) and the
-[rendered content](http://nu-msr.github.io/msr-student-template/project-3.html)
-for an example.
+Portfolio Jekyll Theme supports comments at the end of posts through [Disqus](https://disqus.com/). In order to activate Disqus commenting, set `disqus.comments` to true in the `_data/settings.yml` file. If you do not have a Disqus account already, you will have to set one up, and create a profile for your website. You will be given a `disqus_shortname` that will be used to generate the appropriate comments sections for your site. More information on [how to set up Disqus](http://www.perfectlyrandom.org/2014/06/29/adding-disqus-to-your-jekyll-powered-github-pages/).
 
+### Google Analytics
 
-### Arranging projects
-Your projects will be arranged in alphabetical order depending on the name you
-give your **_.md_** file. To have full control of the order your projects appear
-from left to right, you can simply prepend a number to the file name like this
-* **_0_invisibility_project.md_**
-* **_1_aliens_project.md_**.
-* **_2_spartan_project.md_**
+It is possible to track your site statistics through [Google Analytics](https://www.google.com/analytics/). Similar to Disqus, you will have to create an account for Google Analytics, and enter the correct Google ID for your site under `google-ID` in the `settings.yml` file. More information on [how to set up Google Analytics](https://michaelsoolee.com/google-analytics-jekyll/).
 
-This way the invisibility project is displayed before the aliens project and so
-on. To see why this works check out
-[lines 10-11 in the index.html file](index.html#L10-L11) or see the commit where
-this
-[change was introduced](https://github.com/NU-MSR/msr-student-template/commit/2b94e3d30f8da66d6bf0ea4a522a601dc253e8a7).
+### RSS Feeds
 
-#### Permalinks and project names
+Atom is supported by default through [jekyll-feed](https://github.com/jekyll/jekyll-feed). With jekyll-feed, you can set configuration variables such as 'title', 'description', and 'author', in the `_config.yml` file.
 
-In the above section we showed that you can re-arrange your projects on the
-homepage by adjusting the filenames of the Markdown files. This is great, but an
-unintended consequence has to do with the URLs that Jekyll produces when
-converting Markdown files to HTML. In our default configuration, the name of the
-file becomes the URL. So if you start changing filenames just to re-order your
-homepage, your URLs will start changing as well. If you'd like to fix this
-issue, you can use the `permalink` attribute in your project front matter. For
-example, right now, _Project 3_ has a filename of
-```00-2014-09-24-project-3.md```. The zeros at the front are why it shows up
-first in the [main page](http://nu-msr.github.io/msr-student-template/) of the
-actual site. Notice however, that we've
-[set the permalink](https://github.com/NU-MSR/msr-student-template/commit/2b94e3d30f8da66d6bf0ea4a522a601dc253e8a7#diff-c5c82181ca4919fb080fbdf1fc649892R6)
-to be ```project-3.html```. Thus, we can find this project at the following URL:
-http://nu-msr.github.io/msr-student-template/project-3.html (instead of the
-default URL which would be
-http://nu-msr.github.io/msr-student-template/00-2014-09-24-project-3 ).
+### Social Media Icons
 
+All social media icons are courtesy of [Font Awesome](http://fontawesome.io/). You can change which icons appear, as well as the account that they link to, in the `settings.yml` file in the `_data` folder.
 
-## Helpful tools
+### MathJax
 
-[Dillinger](http://dillinger.io/) is an online markdown editor that allows you
-view the output of markdown files side by side.
+Portfolio Jekyll Theme comes out of the box with [MathJax](https://www.mathjax.org/), which allows you to display mathematical equations in your posts through the use of [LaTeX](http://www.andy-roberts.net/writing/latex/mathematics_1).
 
-[Markdown Preview Plus](https://chrome.google.com/webstore/detail/markdown-preview-plus/febilkbfcbhebfnokafefeacimjdckgl)
-is a Google Chrome extension that allows real-time previewing of locally edited
-Markdown files.
-[Markdown Here](https://addons.mozilla.org/en-US/firefox/addon/markdown-here/)
-is a Firefox extension with similar functionality.
+### Syntax Highlighting
 
-[Pandoc](http://pandoc.org/) is an awesome tool that allows you to convert
-between various markup formats (Markdown, Org, LaTeX, etc.) and various document
-formats (html, doc, pdf, etc.). It can be a little tricky to get it to do
-exactly what you want, but it is extremely powerful.
+Portfolio Jekyll Theme provides syntax highlighting through [fenced code blocks](https://help.github.com/articles/creating-and-highlighting-code-blocks/). Syntax highlighting allows you to display source code in different colors and fonts depending on what programming language is being displayed. You can find the full list of supported programming languages [here](https://github.com/jneen/rouge/wiki/List-of-supported-languages-and-lexers). Another option is to embed your code through [Gist](https://en.support.wordpress.com/gist/).
 
-Many text editors have plugins that enable Markdown previewing. For example, if
-you use Sublime, check out
-[Sublime Text Markdown Preview](https://github.com/revolunet/sublimetext-markdown-preview)
-plugin.
+### Markdown
 
+As always, Jekyll offers support for GitHub Flavored Markdown, which allows you to format your posts using the [Markdown syntax](https://guides.github.com/features/mastering-markdown/). Examples of these text formatting features can be seen below. You can find this post in the `_posts` directory as well as the `README.md` file.
 
+## Everything Else
+
+Check out the [Jekyll docs][jekyll-docs] for more info on how to get the most out of Jekyll. File all bugs/feature requests at [Jekyll's GitHub repo][jekyll-gh]. If you have questions, you can ask them on [Jekyll Talk][jekyll-talk].
+
+[jekyll-docs]: http://jekyllrb.com/docs/home
+[jekyll-gh]:   https://github.com/jekyll/jekyll
+[jekyll-talk]: https://talk.jekyllrb.com/
+
+## Contributing
+
+If you would like to make a feature request, or report a bug or typo in the documentation, then please [submit a GitHub issue](https://github.com/LeNPaul/portfolio-jekyll-theme/issues/new). If you would like to make a contribution, then feel free to [submit a pull request](https://help.github.com/articles/about-pull-requests/) - as a bonus, I will credit all contributors below! If this is your first pull request, it may be helpful to read up on the [GitHub Flow](https://guides.github.com/introduction/flow/) first.
+
+Portfolio Jekyll Theme has been designed as a base for users to customize and fit to their own unique needs. Please keep this in mind when requesting features and/or submitting pull requests. Some examples of changes that I would love to see are things that would make the site easier to use, or better ways of doing things. Please avoid changes that do not benefit the majority of users.
+
+## Questions?
+
+This theme is completely free and open source software. You may use it however you want, as it is distributed under the [MIT License](http://choosealicense.com/licenses/mit/). If you are having any problems, any questions or suggestions, feel free to [tweet at me](https://twitter.com/intent/tweet?text=My%question%about%PJT%is:%&amp;via=paululele), or [file a GitHub issue](https://github.com/lenpaul/portfolio-jekyll-theme/issues/new).
+
+## Credits
+
+### Creator
+
+#### Paul Le
+
+* [www.lenpaul.com](http://lenpaul.com)
+
+* [Twitter](https://twitter.com/paululele)
+
+* [GitHub](https://github.com/LeNPaul)
+
+### Contributors
+
+* Be the first to contribute!
+
+### Icons + Demo Images
+
+* [Death to Stock](https://deathtothestockphoto.com/)
+
+* [Font Awesome](http://fontawesome.io/)
+
+### Other
+
+* [Jekyll](https://jekyllrb.com/)
+
+* [Free Code Camp](https://www.freecodecamp.org)
+
+* [Khan Academy](https://www.khanacademy.org/)
+
+## License
+
+Open sourced under the [MIT license](https://github.com/LeNPaul/portfolio-jekyll-theme/blob/gh-pages/LICENSE.md).

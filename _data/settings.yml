@@ -1,0 +1,75 @@
+#-------------------------------
+# General Site Settings
+
+menu:
+- {name: 'Projects', url: ''}
+- {name: 'Blog', url: 'pages/blog.html'}
+- {name: 'About', url: 'pages/about.html'}
+- {name: 'Contact', url: 'pages/contact.html'}
+
+#-------------------------------
+# SEO Section
+
+# NOTE: Providing SEO information will make this website more searchable on the internet.
+
+seo:
+  description: 'Personal portfolio, Evan Chien, Display technologies, Robotics '
+  # rel-author: 'https://plus.google.com/u/0/#'
+  # rel-publisher: 'https://plus.google.com/u/0/#'
+
+#-------------------------------
+# Google Analytics Section
+
+# Analytics helps you understand who visits your website.
+# Learn more at: http://support.google.com/analytics/answer/1008065
+
+# NOTE: If you want to use Google Analytics for basic web tracking: Just uncomment and enter your UA-Code here.
+
+# google-analytics-ua: 'UA-112060364-3'
+
+#-------------------------------
+# Disqus Section
+
+# Change to true for Disqus comments
+disqus:
+  comments: false
+  # disqus_shortname: 'thathungrymind'
+
+#-------------------------------
+# About Section
+
+about: >
+![alt text](https://evanchien.github.io/assets/img/others/myphoto.png)
+  # Work Experience
+
+  Display technology engineer @ Garmin Corp., 1997-2016 <br>
+
+  Asst. Manager @ Vive Dept., HTC., 2017<br>
+
+  Master student @ Northwestern Univ., 2017-2018<br>
+
+contact: >
+  # Contact
+
+  You may contact me [email here](mailto:evan.ch.chien@gmail.com) if you have any questions or would like to bring up any issues.
+
+#-------------------------------
+# Work Section
+
+projects:
+- {name: 'Project One', folder: 'proj-1', file: 'projects/proj-1.html'}
+- {name: 'Project Two', folder: 'proj-2', file: 'projects/proj-2.html'}
+- {name: 'Project Three', folder: 'proj-3', file: 'projects/proj-3.html'}
+- {name: 'Project Four', folder: 'proj-4', file: 'projects/proj-4.html'}
+- {name: 'Project Five', folder: 'proj-5', file: 'projects/proj-5.html'}
+
+#-------------------------------
+# Contact Section
+
+social:
+- {icon: 'instagram', link: 'http://instagram.com/roxetti'}
+- {icon: 'github', link: 'http://github.com/evanchien'}
+- {icon: 'linkedin', link: 'http://linkedin.com/in/evanchien'}
+- {icon: 'envelope', link: 'mailto:#evan.ch.chien@gmail.com'}
+
+# social network icons available: 'twitter' / 'facebook' / 'github' / 'pinterest' 'google-plus' / 'linkedin' / 'youtube' / 'instagram' / 'dribbble' / 'behance' / 'soundcloud' / 'vine'
