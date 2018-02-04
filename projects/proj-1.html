@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html class="">
+<head>
+  <meta charset="UTF-8">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Personal portfolio, Evan Chien, Display technologies, Robotics ">
+  <meta rel="author" href="">
+  <meta rel="publisher" href="">
+
+  <title>
+    
+      Gesture calligraphy | Evan's Personal page
+    
+  </title>
+
+  <link rel="stylesheet" href="/assets/css/all.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <!-- Use Atom -->
+  <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Evan's Personal page" />
+
+  <script type="text/javascript" async
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+
+  
+
+
+  <!-- Use Jekyll SEO plugin -->
+  <!-- Begin Jekyll SEO tag v2.4.0 -->
+<title>Gesture calligraphy | Evan’s Personal page</title>
+<meta name="generator" content="Jekyll v3.7.2" />
+<meta property="og:title" content="Gesture calligraphy" />
+<meta name="author" content="Paul Le" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Powered by Jekyll and GitHub Pages" />
+<meta property="og:description" content="Powered by Jekyll and GitHub Pages" />
+<link rel="canonical" href="http://localhost:4000/projects/proj-1.html" />
+<meta property="og:url" content="http://localhost:4000/projects/proj-1.html" />
+<meta property="og:site_name" content="Evan’s Personal page" />
+<script type="application/ld+json">
+{"description":"Powered by Jekyll and GitHub Pages","author":{"@type":"Person","name":"Paul Le"},"@type":"WebPage","url":"http://localhost:4000/projects/proj-1.html","headline":"Gesture calligraphy","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+</head>
+<body>
+
+<div class="site-container">
+
+  <header>
+  <div class="logo">
+    <a href="/">Evan's Personal page</a>
+  </div>
+  <nav>
+    
+      <a href="/">Projects</a>
+    
+      <a href="/pages/blog.html">Blog</a>
+    
+      <a href="/pages/about.html">About</a>
+    
+      <a href="/pages/contact.html">Contact</a>
+    
+  </nav>
+</header>
+
+
+  <section>
+  <div class="work-container">
+    <h4 class="project-title">Gesture calligraphy</h4>
+    <div class="project-load"><h3 id="category-computer-vision-python">Category: Computer Vision, Python</h3>
+<h3 id="overview">Overview</h3>
+<p>The target of this computer vision project is to detect human finger gestures for calligraphy. The target is not only to be able to draw with fingers but to make the drawing unique by showing the drawing speed with line width. Plus, a gesture is designed for screen cleaning.</p>
+
+<div class="image-container">
+  <a href="http://www.youtube.com/watch?feature=player_embedded&amp;v=T3r4xMxH39M" target="_blank">
+    <img src="/assets/img/projects/proj-1/CV_demo.png" alt="Avatar" class="image" />
+    <div class="overlay">
+      <div class="text">
+        
+          View Demo <i class="fa fa-arrow-right" aria-hidden="true"></i>
+        
+      </div>
+    </div>
+  </a>
+</div>
+
+<h3 id="roi-processing">ROI processing</h3>
+<p>A key to ROI (human palm/finger) finding is how we seperate it from the environment. Here, we take the skin color of Asian as our target.</p>
+
+<p>First, we process every frame in HSV color space and truncate part of the frame so we can focus on the human palm and not be affected by other areas with human skin color, for example, human faces.</p>
+
+<p>Applying an <code class="highlighter-rouge">inrange</code> mask and <code class="highlighter-rouge">bitwise and</code> the original frame to itself, we get a frame with isolated human palm. The ROI isn’t always perfect. Lighting conditions and camera noise can bring some HOLES to the ROI. Thus, we use <code class="highlighter-rouge">dilate/erode</code> to kill the holes and to stablize the contour.</p>
+
+<h3 id="contour">Contour</h3>
+<p>The most important part of this project is to get a clear coutour of the ROI and to filtrate out the noise.</p>
+
+<p>To get the contour, we apply <code class="highlighter-rouge">Canny edge detector</code> to the binary image converted from the HSV image.</p>
+
+<p>There can be plenty of objects with colors similar to human sikn in a frame. <code class="highlighter-rouge">cv2.contourArea</code> is what I use to isolate the palm from the background as the fact that the palm of a person sitting in front of the webcam shall be larger than the objects in the background. So, properly select the area size let our program focuses on the palm.</p>
+
+<h3 id="noise-canceling-in-motion">Noise canceling in motion</h3>
+<p>After we get the biggest contour, we use <code class="highlighter-rouge">numpy.argmin</code> to find the topmost point of the contour. If it is stable and we are almost done. But, it’s not that perfect. The noise cancelation and the edge detector we applied to the image can cause small jitters to the point and that’s not what we want. So, it is necessary to add a low pass filter before we actually draw the points/lines in the frame.</p>
+
+<h3 id="gesture-recognition">Gesture recognition</h3>
+<p>How can the program know when to draw and when not to draw? We use <code class="highlighter-rouge">cv2.matchShapes</code> to compare the contour with a certain pattern, the stop sign.The matchShapes function is comparing the image moments (Hu moments) of the two contours. The benefit of this is that the moments aren’t affected by rotation, mirror and scaling. If the score is lower than the threshold, we know it doesn’t match the stop sign and thus we record the point and the distance of it with the point in the previous frame.</p>
+
+<p>The last thing in the program is just to output the points and connecting them with lines in different widths.</p>
+
+<h3 id="future-works">Future works</h3>
+<p>In this program, a fixed color range is selected. To adapt to different skin colors, machine learning and training should help. This will be my next goal.</p>
+
+<p>Besides skin color, gesture selection is now limited. It is not hard for user to choose their own gestures as their stop signs. However, the threshold setting can be difficult. This is another topic I would like to work on.</p>
+</div>
+  </div>
+  
+</section>
+<footer>
+  <div class="footer-wrap">
+    <div class="footer-tagline">
+      <p></p>
+    </div>
+    <div class="social-media">
+      <nav>
+        
+          <a href="http://instagram.com/roxetti" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+        
+          <a href="http://github.com/evanchien" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
+        
+          <a href="http://linkedin.com/in/evanchien" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+        
+          <a href="mailto:#evan.ch.chien@gmail.com" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+        
+      </nav>
+    </div>
+  </div>
+</footer>
+
+
+
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="/assets/js/functions.js"></script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html class="">
+<head>
+  <meta charset="UTF-8">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Personal portfolio, Evan Chien, Display technologies, Robotics ">
+  <meta rel="author" href="">
+  <meta rel="publisher" href="">
+
+  <title>
+    
+      Sawyer travel | Evan's Personal page
+    
+  </title>
+
+  <link rel="stylesheet" href="/assets/css/all.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <!-- Use Atom -->
+  <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Evan's Personal page" />
+
+  <script type="text/javascript" async
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+
+  
+
+
+  <!-- Use Jekyll SEO plugin -->
+  <!-- Begin Jekyll SEO tag v2.4.0 -->
+<title>Sawyer travel | Evan’s Personal page</title>
+<meta name="generator" content="Jekyll v3.7.2" />
+<meta property="og:title" content="Sawyer travel" />
+<meta name="author" content="Paul Le" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Powered by Jekyll and GitHub Pages" />
+<meta property="og:description" content="Powered by Jekyll and GitHub Pages" />
+<link rel="canonical" href="http://localhost:4000/projects/proj-2.html" />
+<meta property="og:url" content="http://localhost:4000/projects/proj-2.html" />
+<meta property="og:site_name" content="Evan’s Personal page" />
+<script type="application/ld+json">
+{"description":"Powered by Jekyll and GitHub Pages","author":{"@type":"Person","name":"Paul Le"},"@type":"WebPage","url":"http://localhost:4000/projects/proj-2.html","headline":"Sawyer travel","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+</head>
+<body>
+
+<div class="site-container">
+
+  <header>
+  <div class="logo">
+    <a href="/">Evan's Personal page</a>
+  </div>
+  <nav>
+    
+      <a href="/">Projects</a>
+    
+      <a href="/pages/blog.html">Blog</a>
+    
+      <a href="/pages/about.html">About</a>
+    
+      <a href="/pages/contact.html">Contact</a>
+    
+  </nav>
+</header>
+
+
+  <section>
+  <div class="work-container">
+    <h4 class="project-title">Sawyer travel</h4>
+    <div class="project-load"><h3 id="category-computer-vision-python">Category: Computer Vision, Python</h3>
+<h3 id="overview">Overview</h3>
+<p>The goal of this project is to control the Sawyer robot to solve the labyrinth. With the help of computer vision, the start point and the end point can be randomly assigned by color stickers. The joint control is a mixture of velocity control and displacement control. I am responsible for the computer vision part which is to recognize the labyrinth and the end point and to keep tracking the ball and feedbacking to route planning node.</p>
+
+<p>The project is written in <code class="highlighter-rouge">Python</code> and with the help of <code class="highlighter-rouge">OpenCV</code>. You can find the demonstration video clip below.</p>
+
+<div class="image-container">
+  <a href="http://www.youtube.com/watch?feature=player_embedded&amp;v=X8-3FjEdjhU" target="_blank">
+    <img src="/assets/img/projects/proj-2/t_1.jpg" alt="Avatar" class="image" />
+    <div class="overlay">
+      <div class="text">
+        
+          View Demo <i class="fa fa-arrow-right" aria-hidden="true"></i>
+        
+      </div>
+    </div>
+  </a>
+</div>
+
+<h3 id="labyrinth-information-generation">labyrinth information generation</h3>
+<p>The embedded camera of the the sawyer is with wide viewing angle so it is not suitable for our project considering the angular resolution. So, instead, we mounted an additional camera on a tripod. The first topic we solved is the transformation and normalization of the labyrinth and the location of the ball in the labyrinth. As long as we have the edges and the corners recognized, we can turn the quadrangle back to a square. The transformation doesn’t deform the walls in the labyrinth since the picture is a projection and we have the distance information by restoring the labyrinth back to a square.</p>
+
+<p>In the very beginning, by isolating the blue color out from the picture, we get a layer of the walls only out of the picture. Here we use <code class="highlighter-rouge">cv2.approxPolyDP</code> to get the outline of the maze and <code class="highlighter-rouge">cv2.getPerspectiveTransform</code> to normalize the labyrinth. We then feed the route planning node a normalized binary map. It is also the same picture we can filtering out the location of the ball in another layer of white image only and return its start position to the node. Since we only need these informations once, instead using a node publishing the same informations and wasting the bandwidth, services are been chosen. The solution here makes sure the result wouldn’t be affected by where the camera and the tripod are placed as long as all the corners of the labyrinth is visible to the camera.</p>
+
+<p>The ball tracking part is pretty straight forward as we have a node keep tracking the white ball and keep publishing its location to the topic. And, here comes the second topic, how can we keep the position of the white ball stable and precise. We knew that due to tilting there is time the ball is partially visible. So, we use <code class="highlighter-rouge">cv2.minEnclosingCircle(c)</code> to find the minimal enclosing circle and publish its center to the topic.</p>
+</div>
+  </div>
+  
+</section>
+<footer>
+  <div class="footer-wrap">
+    <div class="footer-tagline">
+      <p></p>
+    </div>
+    <div class="social-media">
+      <nav>
+        
+          <a href="http://instagram.com/roxetti" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+        
+          <a href="http://github.com/evanchien" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
+        
+          <a href="http://linkedin.com/in/evanchien" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+        
+          <a href="mailto:#evan.ch.chien@gmail.com" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+        
+      </nav>
+    </div>
+  </div>
+</footer>
+
+
+
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="/assets/js/functions.js"></script>
+</body>
+</html>
