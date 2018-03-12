@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html class="">
+<head>
+  <meta charset="UTF-8">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Personal portfolio, Evan Chien, Display technologies, Robotics">
+  <meta rel="author" href="">
+  <meta rel="publisher" href="">
+
+  <title>
+    
+      Running Cozmo | Evan's Personal page
+    
+  </title>
+
+  <link rel="stylesheet" href="/assets/css/all.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <!-- Use Atom -->
+  <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Evan's Personal page" />
+
+  <script type="text/javascript" async
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+
+  
+
+
+  <!-- Use Jekyll SEO plugin -->
+  <!-- Begin Jekyll SEO tag v2.4.0 -->
+<title>Running Cozmo | Evan’s Personal page</title>
+<meta name="generator" content="Jekyll v3.6.2" />
+<meta property="og:title" content="Running Cozmo" />
+<meta name="author" content="Paul Le" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Powered by Jekyll and GitHub Pages" />
+<meta property="og:description" content="Powered by Jekyll and GitHub Pages" />
+<link rel="canonical" href="http://localhost:4000/projects/proj-3.html" />
+<meta property="og:url" content="http://localhost:4000/projects/proj-3.html" />
+<meta property="og:site_name" content="Evan’s Personal page" />
+<script type="application/ld+json">
+{"description":"Powered by Jekyll and GitHub Pages","author":{"@type":"Person","name":"Paul Le"},"@type":"WebPage","url":"http://localhost:4000/projects/proj-3.html","headline":"Running Cozmo","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+</head>
+<body>
+
+<div class="site-container">
+
+  <header>
+  <div class="logo">
+    <a href="/">Evan's Personal page</a>
+  </div>
+  <nav>
+    
+      <a href="/">Projects</a>
+    
+      <a href="/pages/blog.html">Blog</a>
+    
+      <a href="/pages/about.html">About</a>
+    
+      <a href="/pages/contact.html">Contact</a>
+    
+  </nav>
+</header>
+
+
+  <section>
+  <div class="work-container">
+    <h4 class="project-title">Running Cozmo</h4>
+    <div class="project-load"><h3 id="category-computer-vision-python-ros">Category: Computer Vision, Python, ROS</h3>
+<h3 id="overview">Overview</h3>
+<p>The goal of this project is using ros and OpenCV to cruise the cozmo robot on a track with the ability avoiding obstacles and stopping at traffic sign.</p>
+
+<!-- <div class="image-container">
+  <a href="http://www.youtube.com/watch?feature=player_embedded&v=T3r4xMxH39M" target="_blank">
+    <img src="/assets/img/projects/proj-1/CV_demo.png" alt="Avatar" class="image">
+    <div class="overlay">
+      <div class="text">
+        
+          View Demo <i class="fa fa-arrow-right" aria-hidden="true"></i>
+        
+      </div>
+    </div>
+  </a>
+</div>
+ -->
+
+<h3 id="pathobstacle-recognition">Path/Obstacle recognition</h3>
+<p><img src="/assets/img/projects/proj-3/Selection_090.png" alt="alt text" title="Obstacle" /></p>
+
+<p>Similar to my previous projects, the frame is analyzed in HSV space and segmented into regions. The lower area marked in red is for road center detection and obstacle detection. As in the picture above, a block showing in the frame makes the robot turning to right as the blue arrowed line indicated.</p>
+
+<p>And the green rectangle marks the area for sign or traffic light detection. So far, a predefined color, pink, is chosen. When the robot sees the sign, it stops until the sign is removed.</p>
+
+<h3 id="motion-control">Motion Control</h3>
+<p>Here I use PD control of the angular velocity (velocity delta between caterpillar tracks) for the cruise of the robot. As in equations below, the e, error, represents the delta between the center of the road ahead in the red rectangular area and the screen center. Besides the P control, I include the D control to improve the stability and prevent huge swing at turning.</p>
+
+<blockquote>
+  <blockquote>
+    <blockquote>
+      <blockquote>
+        <blockquote>
+          <p><strong>u = ke* e + kd* ed</strong></p>
+        </blockquote>
+      </blockquote>
+    </blockquote>
+  </blockquote>
+</blockquote>
+
+<blockquote>
+  <blockquote>
+    <blockquote>
+      <blockquote>
+        <blockquote>
+          <p><strong>ed = e - eprev</strong></p>
+        </blockquote>
+      </blockquote>
+    </blockquote>
+  </blockquote>
+</blockquote>
+
+<h3 id="ros-structure">ROS structure</h3>
+
+<p>The node list and the function of each node:</p>
+<ol>
+  <li>cozmo_driver: The node handles the communication between cozmo python driver and the host.</li>
+  <li>obj_id: The main function of this node is processing the video frame and output the position and the size of the road and the obstacles.</li>
+  <li>vel_ctl: With the positions of different objects, the node calculates and outputs the velocity of the cozmo.</li>
+</ol>
+
+<p>The topics used in this project:</p>
+<ol>
+  <li>/cozmo_driver/image - the image feedback</li>
+  <li>/cmd_vel - the velocity</li>
+  <li>/head_angle - Adjusting the vertical field of view</li>
+  <li>/odom - the odometry</li>
+  <li>/obj_size - the topic of the location and the size of each object</li>
+</ol>
+
+<h3 id="other-functions">Other functions</h3>
+<p>The auto white balance of the cozmo robot is not ideal. So, there is an additional function, img_cal, that does the calibration, normalizes the RGB values and store the values into a text file.</p>
+</div>
+  </div>
+  
+</section>
+<footer>
+  <div class="footer-wrap">
+    <div class="footer-tagline">
+      <p></p>
+    </div>
+    <div class="social-media">
+      <nav>
+        
+          <a href="http://instagram.com/roxetti" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+        
+          <a href="http://github.com/evanchien" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
+        
+          <a href="http://linkedin.com/in/evanchien" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+        
+          <a href="mailto:#evan.ch.chien@gmail.com" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+        
+      </nav>
+    </div>
+  </div>
+</footer>
+
+
+
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="/assets/js/functions.js"></script>
+</body>
+</html>
