@@ -32,7 +32,7 @@
   <!-- Use Jekyll SEO plugin -->
   <!-- Begin Jekyll SEO tag v2.4.0 -->
 <title>Sawyer travel | Evan’s Personal page</title>
-<meta name="generator" content="Jekyll v3.6.2" />
+<meta name="generator" content="Jekyll v3.7.2" />
 <meta property="og:title" content="Sawyer travel" />
 <meta name="author" content="Paul Le" />
 <meta property="og:locale" content="en_US" />
@@ -96,7 +96,17 @@
 
 <p>In the very beginning, by isolating the blue color out from the picture, we get a layer of the walls only out of the picture. Here we use <code class="highlighter-rouge">cv2.approxPolyDP</code> to get the outline of the maze and <code class="highlighter-rouge">cv2.getPerspectiveTransform</code> to normalize the labyrinth. We then feed the route planning node a normalized binary map. It is also the same picture we can filtering out the location of the ball in another layer of white image only and return its start position to the node. Since we only need these informations once, instead using a node publishing the same informations and wasting the bandwidth, services are been chosen. The solution here makes sure the result wouldn’t be affected by where the camera and the tripod are placed as long as all the corners of the labyrinth is visible to the camera.</p>
 
-<p>The ball tracking part is pretty straight forward as we have a node keep tracking the white ball and keep publishing its location to the topic. And, here comes the second topic, how can we keep the position of the white ball stable and precise. We knew that due to tilting there is time the ball is partially visible. So, we use <code class="highlighter-rouge">cv2.minEnclosingCircle(c)</code> to find the minimal enclosing circle and publish its center to the topic.</p>
+<p>The ball tracking part is pretty straight forward as we have a node keep tracking the white ball and keep publishing its location to the topic. And, here comes the second topic, how can we keep the position of the white ball stable and precise? We knew that due to tilting there is time the ball is partially visible. So, we use <code class="highlighter-rouge">cv2.minEnclosingCircle(c)</code> to find the minimal enclosing circle and publish its center to the topic.</p>
+
+<h3 id="best-route-generation">Best route generation</h3>
+
+<p>After receiving the labyrinth info from the previous function, we generate the shortest path to the goal and the nodes at every turning point for the control function. With the real time ball position feedback, we are awared of where the ball is and able to generate the next node.</p>
+
+<p>Even if we miss the node or make the wrong turn, we can always compare the distance of the current target node with the closest node of an alternative route and decide whether we give up the current target node or not.</p>
+
+<h3 id="ball-movement-control">Ball movement control</h3>
+
+<p>This part is pretty straight forward as we have limited the movement just in roll and pitch. By applying PID control and optimization, the control to the robot works just fine when the update rate of the previous two functions reaches 10Hz or above.</p>
 </div>
   </div>
   
