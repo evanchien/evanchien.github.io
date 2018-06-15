@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html class="">
+<head>
+  <meta charset="UTF-8">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Personal portfolio, Evan Chien, Display technologies, Robotics">
+  <meta rel="author" href="">
+  <meta rel="publisher" href="">
+
+  <title>
+    
+      CV-applied test fluid concentraction detection | Evan's Personal page
+    
+  </title>
+
+  <link rel="stylesheet" href="/assets/css/all.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <!-- Use Atom -->
+  <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Evan's Personal page" />
+
+  <script type="text/javascript" async
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+
+  
+
+
+  <!-- Use Jekyll SEO plugin -->
+  <!-- Begin Jekyll SEO tag v2.4.0 -->
+<title>CV-applied test fluid concentraction detection | Evan’s Personal page</title>
+<meta name="generator" content="Jekyll v3.6.2" />
+<meta property="og:title" content="CV-applied test fluid concentraction detection" />
+<meta name="author" content="Paul Le" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Powered by Jekyll and GitHub Pages" />
+<meta property="og:description" content="Powered by Jekyll and GitHub Pages" />
+<link rel="canonical" href="http://localhost:4000/projects/proj-4.html" />
+<meta property="og:url" content="http://localhost:4000/projects/proj-4.html" />
+<meta property="og:site_name" content="Evan’s Personal page" />
+<script type="application/ld+json">
+{"description":"Powered by Jekyll and GitHub Pages","author":{"@type":"Person","name":"Paul Le"},"@type":"WebPage","headline":"CV-applied test fluid concentraction detection","url":"http://localhost:4000/projects/proj-4.html","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+</head>
+<body>
+
+<div class="site-container">
+
+  <header>
+  <div class="logo">
+    <a href="/">Evan's Personal page</a>
+  </div>
+  <nav>
+    
+      <a href="/">Projects</a>
+    
+      <a href="/pages/blog.html">Blog</a>
+    
+      <a href="/pages/about.html">About</a>
+    
+      <a href="/pages/contact.html">Contact</a>
+    
+  </nav>
+</header>
+
+
+  <section>
+  <div class="work-container">
+    <h4 class="project-title">CV-applied test fluid concentraction detection</h4>
+    <div class="project-load"><h4 id="category-computer-vision-c"><center><font color="orange">Category: Computer Vision, C++</font></center></h4>
+
+<h4 id="goal"><center><font color="orange">Goal</font></center></h4>
+
+<p>The project is to build up a system that accurately detects the concentrations of certain componets such as chloride and hydronium ions, glucose, and lactate in the sweat. The sweat is collected by a soft, flex-
+ible, and stretchable microfluidic system on a pad attaching to human skin.</p>
+
+<p>The system detect the concentration in colormetric fashion. By interacting with the chemical compound at the test area, the saturation of the color varies with different concentration.</p>
+
+<p>The job analyzing the color change and mapping the color to a certain concentration was manually done by human. And, now we want to have the machine to take over the job.</p>
+
+<h4 id="stage-1-"><center><font color="orange">Stage 1 </font></center></h4>
+<p>The first part of my job is to build up a software which corrects the white balance and the exposure, output the reading at the test area and compare with the reading on the pictures human processed.</p>
+
+<p>So, I have two tasks to tackle at this stage for the comparison.</p>
+<ol>
+  <li><code class="highlighter-rouge">unify the exposure and the white balance</code></li>
+  <li><code class="highlighter-rouge">Find the test area in the picture</code></li>
+</ol>
+
+<h4 id="test-area-detection">Test area detection</h4>
+<p>The piture taken for analysis is as in below. At the upper right corner is the pad with 12 test areas to be detected.
+<img src="/assets/img/projects/proj-4/100mM_bare.png" alt="drawing" width="1200px" />
+<!-- ![img](/assets/img/projects/proj-4/100mM_bare.png) --></p>
+
+<p>We first extract the feature out with <code class="highlighter-rouge">hough circle</code> and filter out the tiny holes around the test areas by the radius. In some cases as pictured below when the concentration is low, the contrast of the test area and the test pad is lower. We can’t extract all the areas out with just hough circle. The red circles show area detected.</p>
+<center><img src="/assets/img/projects/proj-4/partial.png" alt="drawing" width="300px" /></center>
+<p>Here is what I did handling such problem:</p>
+
+<ol>
+  <li>I tried to seperate the test areas into two groups and have each group fitting to a line.</li>
+  <li>find the min. spacing and do interpolations between test areas.</li>
+  <li>From the left most and the right most points, keep looking for candidates with similar HSV values and stop while no candidates or hitting the boundaries.</li>
+</ol>
+
+<p>By doing so, we are able to extract all the test area out as shown in below. The green circles are augmented by our algorithm.</p>
+<center><img src="/assets/img/projects/proj-4/full.png" alt="drawing" width="300px" />  </center>
+
+<h4 id="white-balance-correction">White balance correction</h4>
+
+<p>Here I refer to the method <a href="https://web.stanford.edu/~sujason/ColorBalancing/simplestcb.html">here</a> to do the histogram equalization for color correction.</p>
+
+<p>Here are the steps:</p>
+<ol>
+  <li>Split the frame into 3 channels.</li>
+  <li>Reshape each channel to an 1-D array and sort it in ascending order.</li>
+  <li>Looking for the pixel value of the lowest 0.5% pixel and the highest 0.5% one.</li>
+  <li>For pixels with value lower that the lower bar, reset their value to the lower bar. For those higer than higher bar, reset them to higher bar.</li>
+  <li>normalize each channel and merge them back.</li>
+</ol>
+
+<p>You can find the result below. the upper one is before correction and the lower one is after.</p>
+
+<center><img src="/assets/img/projects/proj-4/RAW_019.png" alt="drawing" width="500px" /></center>
+<center>Before correction  </center>
+<p><br /></p>
+<center><img src="/assets/img/projects/proj-4/WB_correction_020.png" alt="drawing" width="500px" />  </center>
+<center>After correction</center>
+
+<h4 id="next-step">Next step</h4>
+<p>So, now, we have to the tool ready. We can read out the values and compare them with the values we manually adjusted and read out from the picture. I’ll be updating this part soon.</p>
+
+</div>
+  </div>
+  
+</section>
+<footer>
+  <div class="footer-wrap">
+    <div class="footer-tagline">
+      <p></p>
+    </div>
+    <div class="social-media">
+      <nav>
+        
+          <a href="http://instagram.com/roxetti" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+        
+          <a href="http://github.com/evanchien" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
+        
+          <a href="http://linkedin.com/in/evanchien" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+        
+          <a href="mailto:#evan.ch.chien@gmail.com" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+        
+      </nav>
+    </div>
+  </div>
+</footer>
+
+
+
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="/assets/js/functions.js"></script>
+</body>
+</html>
