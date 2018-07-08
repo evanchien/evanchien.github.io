@@ -96,14 +96,14 @@
 <img src="/assets/img/projects/proj-4/100mM_bare.png" alt="drawing" width="1200px" />
 <!-- ![img](/assets/img/projects/proj-4/100mM_bare.png) --></p>
 
-<p>We first extract the feature out with <code class="highlighter-rouge">hough circle</code> and filter out the tiny holes around the test areas by the radius. In some cases as pictured below when the concentration is low, the contrast of the test area and the test pad is lower. We can’t extract all the areas out with just hough circle. The red circles show area detected.</p>
+<p>We first extract the feature out with <strong>cv::HoughCircles</strong> and filter out the tiny holes around the test areas by the radius. In some cases as pictured below when the concentration is low, the contrast of the test area and the test pad is lower. We can’t extract all the areas out with just hough circle. The red circles show area detected.</p>
 <center><img src="/assets/img/projects/proj-4/partial.png" alt="drawing" width="300px" /></center>
 <p>Here is what I did handling such problem:</p>
 
 <ol>
-  <li>I tried to seperate the test areas into two groups and have each group fitting to a line.</li>
+  <li>I tried to seperate the test areas into two groups and have each group fitting to a line by <strong>cv::fitLine</strong></li>
   <li>find the min. spacing and do interpolations between test areas.</li>
-  <li>From the left most and the right most points, keep looking for candidates with similar HSV values and stop while no candidates or hitting the boundaries.</li>
+  <li>From the left most and the right most points, keep looking for candidates whose HSV valueis within the threshold and stop while no candidates with HSV in the range or hitting the boundaries.</li>
 </ol>
 
 <p>By doing so, we are able to extract all the test area out as shown in below. The green circles are augmented by our algorithm.</p>
@@ -117,7 +117,7 @@
 <ol>
   <li>Split the frame into 3 channels.</li>
   <li>Reshape each channel to an 1-D array and sort it in ascending order.</li>
-  <li>Looking for the pixel value of the lowest 0.5% pixel and the highest 0.5% one.</li>
+  <li>Looking for the pixel value of the lowest 1% pixel and the highest 1% one.</li>
   <li>For pixels with value lower that the lower bar, reset their value to the lower bar. For those higer than higher bar, reset them to higher bar.</li>
   <li>normalize each channel and merge them back.</li>
 </ol>
@@ -130,8 +130,14 @@
 <center><img src="/assets/img/projects/proj-4/WB_correction_020.png" alt="drawing" width="500px" />  </center>
 <center>After correction</center>
 
-<h4 id="next-step">Next step</h4>
-<p>So, now, we have to the tool ready. We can read out the values and compare them with the values we manually adjusted and read out from the picture. I’ll be updating this part soon.</p>
+<p>In this case, the white balance of the scanner is stable, so, the color doesn’t change a lot. But, we do improve the contrast of the picture which means we potentially have better resolution within the range.</p>
+
+<h4 id="the-result-of-stage-1">The result of stage 1</h4>
+<p>The samples we analyzed is with 10mM, 25mM, 30mM, 75mM and 100mM concentration. The plot below shows the saturation value of HSV with different concentrations. From it, we see that the chemical reaction is similar to linear before 75mM. Higher than that, it looks like the reaction is near to saturation.</p>
+
+<p>We can also find, as mentioned, the correction function improves the contrast from the greater slope.</p>
+
+<center><img src="/assets/img/projects/proj-4/comparison.png" alt="drawing" width="500px" /></center>
 
 </div>
   </div>
