@@ -10,7 +10,7 @@
 
   <title>
     
-      First Post here | Evan's Personal page
+      Notes for Computer Vision | Evan's Personal page
     
   </title>
 
@@ -31,20 +31,20 @@
 
   <!-- Use Jekyll SEO plugin -->
   <!-- Begin Jekyll SEO tag v2.4.0 -->
-<title>First Post here | Evan’s Personal page</title>
+<title>Notes for Computer Vision | Evan’s Personal page</title>
 <meta name="generator" content="Jekyll v3.6.2" />
-<meta property="og:title" content="First Post here" />
+<meta property="og:title" content="Notes for Computer Vision" />
 <meta name="author" content="Paul Le" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Yes, it’s empty right now." />
-<meta property="og:description" content="Yes, it’s empty right now." />
+<meta name="description" content="Feature extraction SIFT SURF ORB" />
+<meta property="og:description" content="Feature extraction SIFT SURF ORB" />
 <link rel="canonical" href="http://localhost:4000/getting-started.html" />
 <meta property="og:url" content="http://localhost:4000/getting-started.html" />
 <meta property="og:site_name" content="Evan’s Personal page" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2017-01-01T00:00:00-06:00" />
 <script type="application/ld+json">
-{"description":"Yes, it’s empty right now.","author":{"@type":"Person","name":"Paul Le"},"@type":"BlogPosting","headline":"First Post here","dateModified":"2017-01-01T00:00:00-06:00","url":"http://localhost:4000/getting-started.html","datePublished":"2017-01-01T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/getting-started.html"},"@context":"http://schema.org"}</script>
+{"description":"Feature extraction SIFT SURF ORB","author":{"@type":"Person","name":"Paul Le"},"@type":"BlogPosting","headline":"Notes for Computer Vision","dateModified":"2017-01-01T00:00:00-06:00","url":"http://localhost:4000/getting-started.html","datePublished":"2017-01-01T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/getting-started.html"},"@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -73,8 +73,41 @@
 
   <section>
   <div class="work-container">
-    <h4 class="project-title">First Post here</h4>
-    <div class="project-load"><p>Yes, it’s empty right now.</p>
+    <h4 class="project-title">Notes for Computer Vision</h4>
+    <div class="project-load"><h2 id="feature-extraction">Feature extraction</h2>
+<ul>
+  <li>
+    <h4 id="sift">SIFT</h4>
+  </li>
+  <li>
+    <h4 id="surf">SURF</h4>
+  </li>
+  <li>
+    <h4 id="orb"><strong>ORB</strong></h4>
+
+    <ul>
+      <li><strong>Oriented FAST (features from accelerated segment test)</strong>
+        <ul>
+          <li>point counts, Harris score</li>
+          <li>radius</li>
+          <li>threshold</li>
+          <li>Counts: FAST-9, FAST-10,…</li>
+          <li>3/4 of the points on the axis</li>
+          <li>Non-max suppression</li>
+          <li>Intensity centroid for direction</li>
+        </ul>
+      </li>
+      <li><strong>rBRIEF</strong>
+        <ul>
+          <li>Hamming distance</li>
+          <li>Rotational invariance from intensity centroid</li>
+          <li>Better match: distance &lt; max(2* min distance, 30)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
 </div>
   </div>
   
