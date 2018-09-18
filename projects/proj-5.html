@@ -99,11 +99,13 @@
 
 <hr />
 
-<h2 id="pre-procession">Pre-procession</h2>
+<h3 id="pre-procession">Pre-procession</h3>
 
 <p>The dataset contains several sub-folders with images and csv files of annotation. To better feeding into object detection API, it is necessary to transfer the images into record files with features.</p>
 
-<h3 id="dictionary--pbtxt">Dictionary &amp; pbtxt</h3>
+<ul>
+  <li>Dictionary &amp; pbtxt</li>
+</ul>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># The annotation dictionary for tf records and for pbtxt.</span>
 <span class="n">annotation_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s">"go"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="s">"warning"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s">"stop"</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="s">"goLeft"</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span> <span class="s">"warningLeft"</span><span class="p">:</span><span class="mi">5</span><span class="p">,</span> <span class="s">"stopLeft"</span><span class="p">:</span><span class="mi">6</span><span class="p">,</span> <span class="s">"goForward"</span><span class="p">:</span><span class="mi">7</span><span class="p">}</span>
@@ -119,15 +121,19 @@
     
 </code></pre></div></div>
 
-<h3 id="trainvalid-ratio">Train/valid ratio</h3>
+<ul>
+  <li>Train/valid ratio</li>
+</ul>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">DATA_PATH</span> <span class="o">=</span> <span class="s">'TOP_LEVEL_FOLDER'</span>
 <span class="n">TRAIN_PATH</span> <span class="o">=</span><span class="s">'TRAINING_folder'</span>  <span class="c"># path to dayTrain</span>
 <span class="n">TRAIN_RATIO</span> <span class="o">=</span> <span class="mf">0.7</span>
 </code></pre></div></div>
 
-<h3 id="features">Features</h3>
-<p>Each row of the CSV file corresponds to a bounding box of an image. But, there could be several bounding boxes in an image so it is not proper to do per row read-in. Here I use class to registry files and put them into a list for following train/valid split.</p>
+<ul>
+  <li>Features
+Each row of the CSV file corresponds to a bounding box of an image. But, there could be several bounding boxes in an image so it is not proper to do per row read-in. Here I use class to registry files and put them into a list for following train/valid split.</li>
+</ul>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">single_record</span><span class="p">:</span>
     <span class="s">'''
@@ -189,37 +195,33 @@
     <span class="n">writer</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </code></pre></div></div>
 
-<h2 id="config">Config</h2>
+<h3 id="config">Config</h3>
 
-<h3 id="model">Model</h3>
+<ul>
+  <li>Model</li>
+</ul>
 
 <p>In the model section, I chose not to resize the input images and to keep the anchor size. For smaller objects, like the traffic light bulbs, I would change the anchor to 64x64. As for the max detections per class and total detections, 10 is pretty enough for most cases on the road.</p>
 
-<ul>
-  <li>fixed_shape_resizer
-    <ul>
-      <li>height:960</li>
-      <li>width: 1280</li>
-    </ul>
-  </li>
-  <li>grid_anchor_generator
-    <ul>
-      <li>height:128</li>
-      <li>width: 128</li>
-    </ul>
-  </li>
-  <li>max_detections_per_class: 10</li>
-  <li>max_total_detections: 10</li>
-</ul>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>* fixed_shape_resizer
+    - height:960
+    - width: 1280
+* grid_anchor_generator
+    - height:128
+    - width: 128
+* max_detections_per_class: 10
+* max_total_detections: 10
+</code></pre></div></div>
 
-<h3 id="train_config">Train_config</h3>
+<ul>
+  <li>Train_config</li>
+</ul>
 
 <p>The initial learning rate is set at 0.00002. It is lower that the default value but I get the chance to see if something like overfitting showing during the training via monitoring the loss curve.</p>
 
-<ul>
-  <li>initial_learning_rate: 0.00002</li>
-  <li>from_detection_checkpoint: true</li>
-</ul>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>* initial_learning_rate: 0.00002
+* from_detection_checkpoint: true
+</code></pre></div></div>
 
 <p><img src="/assets/img/projects/proj-5/precision.png" alt="Precision" />
 <img src="/assets/img/projects/proj-5/regression.png" alt="Regression" />
@@ -229,7 +231,7 @@
   <li>The dipping in the middle of the training is due to wrong dataset imported after break/resume</li>
 </ul>
 
-<h2 id="screenshots">Screenshots</h2>
+<h3 id="screenshots">Screenshots</h3>
 
 <p>Here I took three youtube driving videos of three different cities (Chicago, NYC and SF), made annotated version of them and took some screenshots showing below. If interested, the links to the annotated videos is also attached for references.</p>
 
@@ -237,35 +239,38 @@
 
 <p>During the visualization, the min_score_thresh is set at 0.85 to reduce the noises and false detections.</p>
 
-<h3 id="nyc">NYC</h3>
-<p><img src="/assets/img/projects/proj-5/NYC_STOP.png" alt="NYC STOP" />
-<img src="/assets/img/projects/proj-5/NYC_GO.png" alt="NYC GO" /></p>
 <ul>
-  <li>Original video link: https://www.youtube.com/watch?v=kBleVYw_MDs</li>
+  <li>NYC
+<img src="/assets/img/projects/proj-5/NYC_STOP.png" alt="NYC STOP" />
+<img src="/assets/img/projects/proj-5/NYC_GO.png" alt="NYC GO" />
+    <ul>
+      <li>Original video link: https://www.youtube.com/watch?v=kBleVYw_MDs</li>
+    </ul>
+  </li>
+  <li>Chicago
+<img src="/assets/img/projects/proj-5/CHI_STOP.png" alt="CHI STOP" />
+<img src="/assets/img/projects/proj-5/CHI_GO.png" alt="CHI GO" />
+    <ul>
+      <li>Original video link: https://www.youtube.com/watch?v=kOMWAnxK</li>
+    </ul>
+  </li>
+  <li>SF
+<img src="/assets/img/projects/proj-5/SF_STOP.png" alt="SF STOP" />
+<a href="https://youtu.be/vszRiPL570k"><img src="/assets/img/projects/proj-5/SF_GO.png" alt="SF GO" /></a>
+    <ul>
+      <li>Original video link: https://www.youtube.com/watch?v=DA7uu_wrnQ4</li>
+      <li>Click on the last image for the actual video of NYC.</li>
+    </ul>
+  </li>
 </ul>
 
-<h3 id="chicago">Chicago</h3>
-<p><img src="/assets/img/projects/proj-5/CHI_STOP.png" alt="CHI STOP" />
-<img src="/assets/img/projects/proj-5/CHI_GO.png" alt="CHI GO" /></p>
-<ul>
-  <li>Original video link: https://www.youtube.com/watch?v=kOMWAnxK</li>
-</ul>
-
-<h3 id="sf">SF</h3>
-<p><img src="/assets/img/projects/proj-5/SF_STOP.png" alt="SF STOP" />
-<a href="https://youtu.be/vszRiPL570k"><img src="/assets/img/projects/proj-5/SF_GO.png" alt="SF GO" /></a></p>
-<ul>
-  <li>Original video link: https://www.youtube.com/watch?v=DA7uu_wrnQ4</li>
-  <li>Click on the last image for the actual video of NYC.</li>
-</ul>
-
-<h2 id="results">Results</h2>
+<h3 id="results">Results</h3>
 
 <p>Despite the result in the screenshots above look promising, the real time detection accuracy is not great. This reflects the lower mAP and Regression results above. With longer training time, I expect to have better result. Plus, as one can found in the video, the car moves in slow-motion due to lower detection speed.</p>
 
 <p>My next step to this model is to apply it to a my cozmo robot and see how it goes!</p>
 
-<h2 id="citation">Citation</h2>
+<h3 id="citation">Citation</h3>
 
 <p>Morten Bornø Jensen, Mark Philip Philipsen, Andreas Møgelmose, Thomas B Moeslund, and Mohan M Trivedi. “Vision for Looking at Traffic Lights: Issues, Survey, and Perspectives”. In: IEEE Transactions on Intelligent Transportation Systems (2015).</p>
 
