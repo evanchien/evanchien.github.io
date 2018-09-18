@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html class="">
+<head>
+  <meta charset="UTF-8">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Personal portfolio, Evan Chien, Display technologies, Robotics">
+  <meta rel="author" href="">
+  <meta rel="publisher" href="">
+
+  <title>
+    
+      Transfer learning - Traffic lights | Evan's Personal page
+    
+  </title>
+
+  <link rel="stylesheet" href="/assets/css/all.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <!-- Use Atom -->
+  <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Evan's Personal page" />
+
+  <script type="text/javascript" async
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+
+  
+
+
+  <!-- Use Jekyll SEO plugin -->
+  <!-- Begin Jekyll SEO tag v2.4.0 -->
+<title>Transfer learning - Traffic lights | Evan’s Personal page</title>
+<meta name="generator" content="Jekyll v3.6.2" />
+<meta property="og:title" content="Transfer learning - Traffic lights" />
+<meta name="author" content="Paul Le" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Powered by Jekyll and GitHub Pages" />
+<meta property="og:description" content="Powered by Jekyll and GitHub Pages" />
+<link rel="canonical" href="http://localhost:4000/projects/proj-5.html" />
+<meta property="og:url" content="http://localhost:4000/projects/proj-5.html" />
+<meta property="og:site_name" content="Evan’s Personal page" />
+<script type="application/ld+json">
+{"@type":"WebPage","headline":"Transfer learning - Traffic lights","url":"http://localhost:4000/projects/proj-5.html","author":{"@type":"Person","name":"Paul Le"},"description":"Powered by Jekyll and GitHub Pages","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+</head>
+<body>
+
+<div class="site-container">
+
+  <header>
+  <div class="logo">
+    <a href="/">Evan's Personal page</a>
+  </div>
+  <nav>
+    
+      <a href="/">Projects</a>
+    
+      <a href="/pages/blog.html">Blog</a>
+    
+      <a href="/pages/about.html">About</a>
+    
+      <a href="/pages/contact.html">Contact</a>
+    
+  </nav>
+</header>
+
+
+  <section>
+  <div class="work-container">
+    <h4 class="project-title">Transfer learning - Traffic lights</h4>
+    <div class="project-load"><h3 id="category-computer-vision-deep-learning-object-detection">Category: Computer Vision, Deep learning, Object detection</h3>
+<h3 id="overview">Overview</h3>
+
+<p>The goal of this project is to apply transfer learning to a pre-trained faster-rcnn model for traffic light detection.</p>
+
+<ul>
+  <li>Environment:
+    <ul>
+      <li>Python 3.6</li>
+      <li>Tensorflow 1.10.0</li>
+      <li>CUDA 9.0</li>
+    </ul>
+  </li>
+  <li>Dataset
+    <ul>
+      <li>LISA traffic light dataset</li>
+    </ul>
+  </li>
+  <li>pre-trained Model
+    <ul>
+      <li>Faster_RCNN_inception_v2_coco</li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="pre-procession">Pre-procession</h2>
+
+<p>The dataset contains several sub-folders with images and csv files of annotation. To better feeding into object detection API, it is necessary to transfer the images into record files with features.</p>
+
+<h3 id="dictionary--pbtxt">Dictionary &amp; pbtxt</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># The annotation dictionary for tf records and for pbtxt.</span>
+<span class="n">annotation_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s">"go"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="s">"warning"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s">"stop"</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="s">"goLeft"</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span> <span class="s">"warningLeft"</span><span class="p">:</span><span class="mi">5</span><span class="p">,</span> <span class="s">"stopLeft"</span><span class="p">:</span><span class="mi">6</span><span class="p">,</span> <span class="s">"goForward"</span><span class="p">:</span><span class="mi">7</span><span class="p">}</span>
+
+    <span class="c"># Label_map generation </span>
+    <span class="c"># Exporting the label_map.pbtxt with the dictionary previous generated.</span>
+    <span class="c"># Uncomment if needed</span>
+
+    <span class="k">with</span> <span class="nb">open</span> <span class="p">(</span><span class="s">"PATH_TO_PBTXT/label_map.pbtxt"</span><span class="p">,</span> <span class="s">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="nb">file</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">annotation_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">"item {</span><span class="se">\n</span><span class="s">  id: </span><span class="si">%</span><span class="s">i</span><span class="se">\n</span><span class="s">"</span> <span class="o">%</span><span class="p">(</span><span class="n">annotation_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+            <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">"  name: '</span><span class="si">%</span><span class="s">s'</span><span class="se">\n</span><span class="s">}</span><span class="se">\n\n</span><span class="s">"</span> <span class="o">%</span><span class="n">key</span><span class="p">)</span>
+    
+</code></pre></div></div>
+
+<h3 id="trainvalid-ratio">Train/valid ratio</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">DATA_PATH</span> <span class="o">=</span> <span class="s">'TOP_LEVEL_FOLDER'</span>
+<span class="n">TRAIN_PATH</span> <span class="o">=</span><span class="s">'TRAINING_folder'</span>  <span class="c"># path to dayTrain</span>
+<span class="n">TRAIN_RATIO</span> <span class="o">=</span> <span class="mf">0.7</span>
+</code></pre></div></div>
+
+<h3 id="features">Features</h3>
+<p>Each row of the CSV file corresponds to a bounding box of an image. But, there could be several bounding boxes in an image so it is not proper to do per row read-in. Here I use class to registry files and put them into a list for following train/valid split.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">single_record</span><span class="p">:</span>
+    <span class="s">'''
+    A class for the tf_example protos.
+    The image data is not loaded and the values are not featurized
+    '''</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xmins</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xmaxs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ymins</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ymaxs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">classes_text</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">classes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c"># self.encoded_image_data = None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="bp">None</span>
+
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">record_generator</span><span class="p">(</span><span class="n">records</span><span class="p">,</span> <span class="n">writer</span><span class="p">):</span>
+    <span class="s">'''
+    Create tf records from tf_example prototypes.
+    
+    Param :
+        records - a list of tf_example protos (class single_record)
+        writer - the corresponding tf.writer mapped with the flags
+    
+    Return :
+        None but creating two tfrecords file
+    '''</span>
+    <span class="n">image_format</span> <span class="o">=</span><span class="s">'png'</span><span class="o">.</span><span class="n">encode</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">records</span><span class="p">:</span>
+    <span class="c"># record = records[0]</span>
+        <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">gfile</span><span class="o">.</span><span class="n">GFile</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="s">'rb'</span><span class="p">)</span> <span class="k">as</span> <span class="n">fid</span><span class="p">:</span>
+            <span class="n">encoded_image_data</span> <span class="o">=</span> <span class="n">fid</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="c"># print("encode ok")</span>
+
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="n">filename</span><span class="o">.</span><span class="n">encode</span><span class="p">()</span>
+        <span class="c"># print("filename ok", filename)</span>
+        <span class="n">tf_example</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">Example</span><span class="p">(</span><span class="n">features</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">Features</span><span class="p">(</span><span class="n">feature</span><span class="o">=</span><span class="p">{</span>
+            <span class="s">'image/height'</span><span class="p">:</span> <span class="n">dataset_util</span><span class="o">.</span><span class="n">int64_feature</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">height</span><span class="p">),</span>
+            <span class="s">'image/width'</span><span class="p">:</span> <span class="n">dataset_util</span><span class="o">.</span><span class="n">int64_feature</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">width</span><span class="p">),</span>
+            <span class="s">'image/filename'</span><span class="p">:</span> <span class="n">dataset_util</span><span class="o">.</span><span class="n">bytes_feature</span><span class="p">(</span><span class="n">filename</span><span class="p">),</span>
+            <span class="s">'image/source_id'</span><span class="p">:</span> <span class="n">dataset_util</span><span class="o">.</span><span class="n">bytes_feature</span><span class="p">(</span><span class="n">filename</span><span class="p">),</span>
+            <span class="s">'image/encoded'</span><span class="p">:</span> <span class="n">dataset_util</span><span class="o">.</span><span class="n">bytes_feature</span><span class="p">(</span><span class="n">encoded_image_data</span><span class="p">),</span>
+            <span class="s">'image/format'</span><span class="p">:</span> <span class="n">dataset_util</span><span class="o">.</span><span class="n">bytes_feature</span><span class="p">(</span><span class="n">image_format</span><span class="p">),</span>
+            <span class="s">'image/object/bbox/xmin'</span><span class="p">:</span> <span class="n">dataset_util</span><span class="o">.</span><span class="n">float_list_feature</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">xmins</span><span class="p">),</span>
+            <span class="s">'image/object/bbox/xmax'</span><span class="p">:</span> <span class="n">dataset_util</span><span class="o">.</span><span class="n">float_list_feature</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">xmaxs</span><span class="p">),</span>
+            <span class="s">'image/object/bbox/ymin'</span><span class="p">:</span> <span class="n">dataset_util</span><span class="o">.</span><span class="n">float_list_feature</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">ymins</span><span class="p">),</span>
+            <span class="s">'image/object/bbox/ymax'</span><span class="p">:</span> <span class="n">dataset_util</span><span class="o">.</span><span class="n">float_list_feature</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">ymaxs</span><span class="p">),</span>
+            <span class="s">'image/object/class/text'</span><span class="p">:</span> <span class="n">dataset_util</span><span class="o">.</span><span class="n">bytes_list_feature</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">classes_text</span><span class="p">),</span>
+            <span class="s">'image/object/class/label'</span><span class="p">:</span> <span class="n">dataset_util</span><span class="o">.</span><span class="n">int64_list_feature</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">classes</span><span class="p">),</span>
+            <span class="p">}))</span>
+    <span class="c"># print("tf_example ok")</span>
+        <span class="n">writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">tf_example</span><span class="o">.</span><span class="n">SerializeToString</span><span class="p">())</span>
+    <span class="n">writer</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h2 id="config">Config</h2>
+
+<h3 id="model">Model</h3>
+
+<p>In the model section, I chose not to resize the input images and to keep the anchor size. For smaller objects, like the traffic light bulbs, I would change the anchor to 64x64. As for the max detections per class and total detections, 10 is pretty enough for most cases on the road.</p>
+
+<ul>
+  <li>fixed_shape_resizer
+    <ul>
+      <li>height:960</li>
+      <li>width: 1280</li>
+    </ul>
+  </li>
+  <li>grid_anchor_generator
+    <ul>
+      <li>height:128</li>
+      <li>width: 128</li>
+    </ul>
+  </li>
+  <li>max_detections_per_class: 10</li>
+  <li>max_total_detections: 10</li>
+</ul>
+
+<h3 id="train_config">Train_config</h3>
+
+<p>The initial learning rate is set at 0.00002. It is lower that the default value but I get the chance to see if something like overfitting showing during the training via monitoring the loss curve.</p>
+
+<ul>
+  <li>initial_learning_rate: 0.00002</li>
+  <li>from_detection_checkpoint: true</li>
+</ul>
+
+<p><img src="/assets/img/projects/proj-5/precision.png" alt="Precision" />
+<img src="/assets/img/projects/proj-5/regression.png" alt="Regression" />
+<img src="/assets/img/projects/proj-5/loss.png" alt="Loss" /></p>
+
+<ul>
+  <li>The dipping in the middle of the training is due to wrong dataset imported after break/resume</li>
+</ul>
+
+<h2 id="screenshots">Screenshots</h2>
+
+<p>Here I took three youtube driving videos of three different cities (Chicago, NYC and SF), made annotated version of them and took some screenshots showing below. If interested, the links to the annotated videos is also attached for references.</p>
+
+<p>Please note the images and the annoted video are darker than the original files. This is a trick to compensate the exposure since most of the videos have weighted-average exposure and the traffic lights could be over-exposure.</p>
+
+<p>During the visualization, the min_score_thresh is set at 0.85 to reduce the noises and false detections.</p>
+
+<h3 id="nyc">NYC</h3>
+<p><img src="/assets/img/projects/proj-5/NYC_STOP.png" alt="NYC STOP" />
+<img src="/assets/img/projects/proj-5/NYC_GO.png" alt="NYC GO" /></p>
+<ul>
+  <li>Original video link: https://www.youtube.com/watch?v=kBleVYw_MDs</li>
+</ul>
+
+<h3 id="chicago">Chicago</h3>
+<p><img src="/assets/img/projects/proj-5/CHI_STOP.png" alt="CHI STOP" />
+<img src="/assets/img/projects/proj-5/CHI_GO.png" alt="CHI GO" /></p>
+<ul>
+  <li>Original video link: https://www.youtube.com/watch?v=kOMWAnxK</li>
+</ul>
+
+<h3 id="sf">SF</h3>
+<p><img src="/assets/img/projects/proj-5/SF_STOP.png" alt="SF STOP" />
+<a href="https://youtu.be/vszRiPL570k"><img src="/assets/img/projects/proj-5/SF_GO.png" alt="SF GO" /></a></p>
+<ul>
+  <li>Original video link: https://www.youtube.com/watch?v=DA7uu_wrnQ4</li>
+  <li>Click on the last image for the actual video of NYC.</li>
+</ul>
+
+<h2 id="results">Results</h2>
+
+<p>Despite the result in the screenshots above look promising, the real time detection accuracy is not great. This reflects the lower mAP and Regression results above. With longer training time, I expect to have better result. Plus, as one can found in the video, the car moves in slow-motion due to lower detection speed.</p>
+
+<p>My next step to this model is to apply it to a my cozmo robot and see how it goes!</p>
+
+<h2 id="citation">Citation</h2>
+
+<p>Morten Bornø Jensen, Mark Philip Philipsen, Andreas Møgelmose, Thomas B Moeslund, and Mohan M Trivedi. “Vision for Looking at Traffic Lights: Issues, Survey, and Perspectives”. In: IEEE Transactions on Intelligent Transportation Systems (2015).</p>
+
+<p>Mark Philip Philipsen, Morten Bornø Jensen, Andreas Møgelmose, Thomas B Moeslund, and Mohan M Trivedi. “Learning Based Traffic Light Detection: Evaluation on Challenging Dataset”. In: 18th IEEE Intelligent Transportation Systems Conference (2015).</p>
+</div>
+  </div>
+  
+</section>
+<footer>
+  <div class="footer-wrap">
+    <div class="footer-tagline">
+      <p></p>
+    </div>
+    <div class="social-media">
+      <nav>
+        
+          <a href="http://instagram.com/roxetti" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+        
+          <a href="http://github.com/evanchien" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
+        
+          <a href="http://linkedin.com/in/evanchien" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+        
+          <a href="mailto:#evan.ch.chien@gmail.com" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+        
+      </nav>
+    </div>
+  </div>
+</footer>
+
+
+
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="/assets/js/functions.js"></script>
+</body>
+</html>
