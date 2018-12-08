@@ -75,7 +75,7 @@
     <div class="project-load"><h4 id="category-computer-vision-c-java-android"><center><font color="orange">Category: Computer Vision, C++, Java, Android</font></center></h4>
 
 <h4 id="goal"><center><font color="orange">Goal</font></center></h4>
-<p>The goal of this project is to port the previously built pattern recognition project onto android platform. The program is a mixture of Java and C++.</p>
+<p>The goal of this project is to port the previously built pattern recognition project onto android platform. The program is a mixture of Java, C++ and OpenCV.</p>
 
 <p>Please refer to the link below if you are interested in my previous work, the Stage 1.</p>
 
@@ -85,13 +85,13 @@
 
 <h4 id="system-requirements">System Requirements</h4>
 
-<p>Android Phone with  Android ver. 5.0 or Higher
+<p>Android Phone with Android ver. 5.0 or Higher
 Rear camera supporting resolution 1920x1080</p>
 
 <p>Tested on: Pixel2, Samsung Note 4 and OnePlus 5</p>
 
 <h4 id="hardware-setup">Hardware Setup</h4>
-<p>In order to have stable exposure and white balance, extra lighting is expected. In this project, I chose external LED lighting (from an iPhone 6s) instead of the built-in flash light because the position of the flash is too close to the sample and causes over-exposure. In the future, the development of a mounted lighting paired with the program is necessary.</p>
+<p>In order to have stable exposure and white balance, extra lighting is expected. In this project, I chose external LED lighting (from an iPhone 6s) instead of the built-in flash light because the position of the flash is too close to the sample and it causes over-exposure. In the future, the development of a mounted lighting paired with the program is necessary.</p>
 
 <h4 id="software-design">Software Design</h4>
 <p><strong>Android/Java</strong><br />
@@ -195,6 +195,11 @@ set_target_properties(lib_opencv PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_SO
   <li>The image stored don’t show up before restart. This is related to the issue 1. To access the image, a restart is necessary.</li>
   <li>One capture only: After taking a picture for analysis, the program captures the image and stores it. It then calls the creatCameraPreview function to return to the preview mode for next capture. However, sometimes, the program freeses and the preview doesn’t show up without a display off/on cycle.</li>
 </ol>
+
+<p>In order to support different features, I also plan to add a function so the users can draw a custom overlay, crosshair for example, to guide the program where the features locate. This can further prevent false detection and improve the accuracy.</p>
+
+<h4 id="the-package">The Package</h4>
+<p>If you are interested in the details of this application. <a href="https://drive.google.com/open?id=1DuXq-VN57F3Y14Mt1oJNUD3z55Zevz8N">Here</a> is the link to zipped file. It is around 1.2GB with OpenCV sdk. Please feel free to contact me with any question.</p>
 </div>
   </div>
   
