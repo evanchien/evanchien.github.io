@@ -42,7 +42,7 @@
 <meta property="og:url" content="http://localhost:4000/projects/proj-4.html" />
 <meta property="og:site_name" content="Evan’s Personal page" />
 <script type="application/ld+json">
-{"@type":"WebPage","headline":"CV-applied color correction/extraction of soft sweat analyzing pad","url":"http://localhost:4000/projects/proj-4.html","author":{"@type":"Person","name":"Paul Le"},"description":"Powered by Jekyll and GitHub Pages","@context":"http://schema.org"}</script>
+{"@type":"WebPage","url":"http://localhost:4000/projects/proj-4.html","headline":"CV-applied color correction/extraction of soft sweat analyzing pad","author":{"@type":"Person","name":"Paul Le"},"description":"Powered by Jekyll and GitHub Pages","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -82,6 +82,8 @@
 
 <p>The job analyzing the color change and mapping the color to a certain concentration was manually done by human in this program. What I want to do is develping a program that performs equal or better so we get rid of the uncertainties and save the time consuming on this task.</p>
 
+<p>On the other hand, to be able to monitor the changes on one’s health condition, I created an application on the Android platform that not only shows the reading on the fly but also stores the pictures for later in-detail analysis by computer.</p>
+
 <h4 id="stage-1-"><center><font color="orange">Stage 1 </font></center></h4>
 <p>The first part of my job is to build up a software which corrects the white balance and the exposure, output the reading at the test area and compare with the reading on the pictures human processed.</p>
 
@@ -91,7 +93,7 @@
   <li><code class="highlighter-rouge">Find the test area in the picture</code></li>
 </ol>
 
-<h4 id="test-area-detection">Test area detection</h4>
+<h4 id="test-area-detection">Test Area Detection</h4>
 <p>The piture taken for analysis is as in below. At the upper right corner is the pad with 12 test areas to be detected.
 <img src="/assets/img/projects/proj-4/100mM_bare.png" alt="drawing" width="1200px" />
 <!-- ![img](/assets/img/projects/proj-4/100mM_bare.png) --></p>
@@ -109,7 +111,7 @@
 <p>By doing so, we are able to extract all the test area out as shown in below. The green circles are augmented by our algorithm.</p>
 <center><img src="/assets/img/projects/proj-4/full.png" alt="drawing" width="300px" />  </center>
 
-<h4 id="white-balance-correction">White balance correction</h4>
+<h4 id="white-balance-correction">White Balance Correction</h4>
 
 <p>Here I refer to the method <a href="https://web.stanford.edu/~sujason/ColorBalancing/simplestcb.html">here</a> to do the histogram equalization for color correction.</p>
 
@@ -132,12 +134,43 @@
 
 <p>In this case, the white balance of the scanner is stable, so, the color doesn’t change a lot. But, we do improve the contrast of the picture which means we potentially have better resolution within the range.</p>
 
-<h4 id="the-result-of-stage-1">The result of stage 1</h4>
+<h4 id="the-result-of-stage-1">The Result of Stage 1</h4>
 <p>The samples we analyzed is with 10mM, 25mM, 30mM, 75mM and 100mM concentration. The plot below shows the saturation value of HSV with different concentrations. From it, we see that the chemical reaction is similar to linear before 75mM. Higher than that, it looks like the reaction is near to saturation.</p>
 
 <p>We can also find, as mentioned, the correction function improves the contrast from the greater slope.</p>
 
 <center><img src="/assets/img/projects/proj-4/comparison.png" alt="drawing" width="500px" /></center>
+
+<h4 id="stage-2-"><center><font color="orange">Stage 2 </font></center></h4>
+
+<h4 id="system-requirements">System Requirements</h4>
+
+<p>Android 5.0 or Higher
+Rear camera supporting resolution 1920x1080</p>
+
+<h4 id="the-user-interface">The User Interface</h4>
+
+<p>At the first time opening the program, two pop-up windows would show and ask for permission using camera and storage. Once the user agrees, a preview mode would show as in screenshot below.</p>
+
+<p>The user should align (roughly) the test pattern with the blue rectangle, make sure the long sides aligned with the long sides of the bos, check if the focus is correct and press the capture button for the analysis process to begin.</p>
+<center><img src="/assets/img/projects/proj-4/UI.png" alt="drawing" width="200px" /></center>
+
+<p>Once the analysis finished, a pop-up in the center would show to provide the average <strong>saturation</strong> value of this analysis. Another pop-up at the buttom indicates the path and the file name of the unprocessed image file. The image is stored in the folder named as the program.</p>
+
+<p>If the reading is not as expected, the user can refer the image stored in the root folder of the storage. The file has the same name of the image file in the application folder except with a prefix of the saturation reading. In the image, the user is able to see where the program extracts reading. They are circles in green and blue. As long as the circles are within the test areas and there are more than one circle, the reading can be considered as reliable.</p>
+
+<p>Occasionally, there could be no detections at all. If things like this happen, the pop-up in the middle would show <strong>No test area recognized</strong> to remind the user to recapture.</p>
+<h4 id="the-judgment">The Judgment</h4>
+
+<p>Below is a demostration of how a picture with false detection look like. One of the circle is not within the test area. When a detection like this shows, it is suggested that the user to redo the capture.</p>
+
+<center><img src="/assets/img/projects/proj-4/NG.png" alt="drawing" width="400px" /></center>
+
+<p>A good detection is as illustrated below where all the circles are within the test areas.</p>
+
+<center><img src="/assets/img/projects/proj-4/OK.png" alt="drawing" width="400px" /></center>
+
+<h4 id="the-judgment-1">The Judgment</h4>
 
 </div>
   </div>

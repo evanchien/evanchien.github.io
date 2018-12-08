@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html class="">
+<head>
+  <meta charset="UTF-8">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Personal portfolio, Evan Chien, Display technologies, Robotics">
+  <meta rel="author" href="">
+  <meta rel="publisher" href="">
+
+  <title>
+    
+      CV-applied pattern extraction of soft sweat analyzing pad on Android | Evan's Personal page
+    
+  </title>
+
+  <link rel="stylesheet" href="/assets/css/all.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <!-- Use Atom -->
+  <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Evan's Personal page" />
+
+  <script type="text/javascript" async
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+
+  
+
+
+  <!-- Use Jekyll SEO plugin -->
+  <!-- Begin Jekyll SEO tag v2.4.0 -->
+<title>CV-applied pattern extraction of soft sweat analyzing pad on Android | Evan’s Personal page</title>
+<meta name="generator" content="Jekyll v3.6.2" />
+<meta property="og:title" content="CV-applied pattern extraction of soft sweat analyzing pad on Android" />
+<meta name="author" content="Paul Le" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Powered by Jekyll and GitHub Pages" />
+<meta property="og:description" content="Powered by Jekyll and GitHub Pages" />
+<link rel="canonical" href="http://localhost:4000/projects/proj-6.html" />
+<meta property="og:url" content="http://localhost:4000/projects/proj-6.html" />
+<meta property="og:site_name" content="Evan’s Personal page" />
+<script type="application/ld+json">
+{"@type":"WebPage","url":"http://localhost:4000/projects/proj-6.html","headline":"CV-applied pattern extraction of soft sweat analyzing pad on Android","author":{"@type":"Person","name":"Paul Le"},"description":"Powered by Jekyll and GitHub Pages","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+</head>
+<body>
+
+<div class="site-container">
+
+  <header>
+  <div class="logo">
+    <a href="/">Evan's Personal page</a>
+  </div>
+  <nav>
+    
+      <a href="/">Projects</a>
+    
+      <a href="/pages/blog.html">Blog</a>
+    
+      <a href="/pages/about.html">About</a>
+    
+      <a href="/pages/contact.html">Contact</a>
+    
+  </nav>
+</header>
+
+
+  <section>
+  <div class="work-container">
+    <h4 class="project-title">CV-applied pattern extraction of soft sweat analyzing pad on Android</h4>
+    <div class="project-load"><h4 id="category-computer-vision-c-java-android"><center><font color="orange">Category: Computer Vision, C++, Java, Android</font></center></h4>
+
+<h4 id="goal"><center><font color="orange">Goal</font></center></h4>
+<p>The goal of this project is to port the previously built pattern recognition project onto android platform. The program is a mixture of Java and C++.</p>
+
+<p>Please refer to the link below if you are interested in my previous work, the Stage 1.</p>
+
+<p><a href="https://evanchien.github.io/projects/proj-4.html">Stage 1</a></p>
+
+<h4 id="stage-2-"><center><font color="orange">Stage 2 </font></center></h4>
+
+<h4 id="system-requirements">System Requirements</h4>
+
+<p>Android Phone with  Android ver. 5.0 or Higher
+Rear camera supporting resolution 1920x1080</p>
+
+<p>Tested on: Pixel2, Samsung Note 4 and OnePlus 5</p>
+
+<h4 id="hardware-setup">Hardware Setup</h4>
+<p>In order to have stable exposure and white balance, extra lighting is expected. In this project, I chose external LED lighting (from an iPhone 6s) instead of the built-in flash light because the position of the flash is too close to the sample and causes over-exposure. In the future, the development of a mounted lighting paired with the program is necessary.</p>
+
+<h4 id="software-design">Software Design</h4>
+<p><strong>Android/Java</strong><br />
+The Java portion is responsible for the camera control, external storage access and user interface.</p>
+
+<p><strong><em>The User Interface</em></strong></p>
+
+<p>At the first time opening the program, two pop-up windows would show and ask for permission using camera and storage. Once the user agrees, a preview mode would show as in screenshot below.</p>
+
+<p>The user should align (roughly) the test pattern with the blue rectangle, make sure the long sides aligned with the long sides of the bos, check if the focus is correct and press the capture button for the analysis process to begin.</p>
+<center><img src="/assets/img/projects/proj-4/UI.png" alt="drawing" width="200px" /></center>
+
+<p>Once the analysis finished, a pop-up in the center would show to provide the average <code class="highlighter-rouge">saturation</code> value of this analysis. Another pop-up at the buttom indicates the path and the file name of the unprocessed image file. The image is stored in the folder named as the program.</p>
+
+<p>If the reading is not as expected, the user can refer the image stored in the root folder of the storage. The file has the same name of the image file in the application folder except with a prefix of the saturation reading. In the image, the user is able to see where the program extracts reading.</p>
+
+<p>Occasionally, there could be no detections at all. If things like this happen, the pop-up in the middle would show <code class="highlighter-rouge">No test area recognized</code> to remind the user to recapture.</p>
+
+<p>The layout is with <code class="highlighter-rouge">RelativeLayout</code> to ensure the position of the buttons doesn’t change on phones with different resolution. The blue rectanle is however needed to be adjust to fit the phone. It is not due to the resolution but due to the different minimum focus distance of the camera used. The setup in this program should work on most phones.</p>
+
+<p>Once the <code class="highlighter-rouge">CAPTURE</code> button is clicked, two pop-up windows would show. One in the center indicates the average saturation value of the test area it captured. Another is the location and the file name of the stored image. Please note there are two images being stored. One is the original image without feature visualized in a sub-folder named the same as the program name. Another one is within the root folder of the external storage. Users can check both of the images and retake if the features are not well-recognized or the picture is blurry or shaded.</p>
+
+<p>Below is a demostration of how a picture with false detection look like. One of the circle is not within the test area. When a detection like this shows, it is suggested that the user to redo the capture.</p>
+
+<center><img src="/assets/img/projects/proj-4/NG.png" alt="drawing" width="400px" /></center>
+
+<p>A good detection is as illustrated below where all the circles are within the test areas.</p>
+
+<center><img src="/assets/img/projects/proj-4/OK.png" alt="drawing" width="400px" /></center>
+
+<p><strong><em>The Camera2 Package</em></strong><br />
+From API 21 (ver. 5.0), the new camera2 replaces the camera package. The core function is the same. In the program, I locked the capture resolution to 1920x1080 to save the bandwidth and to shorten the processing time. Also, the resolution should work on most of the phones. In the <code class="highlighter-rouge">takePicture</code> function, we look for the preset and output an error log if the preset is not within the supported resolution list.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CameraCharacteristics characteristics = manager.getCameraCharacteristics(cameraDevice.getId());
+            Size[] jpegSizes = null;
+            if (characteristics != null){
+                jpegSizes = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
+                        .getOutputSizes(ImageFormat.JPEG);
+
+            }
+            if (jpegSizes != null &amp;&amp; jpegSizes.length &gt; 0){
+                for(int i=0; i&lt;jpegSizes.length; i++){
+                    if (jpegSizes[i].getWidth() == width &amp;&amp; jpegSizes[i].getHeight() == height){
+                        break;
+                    }
+                    Log.e("ResolutionError", "Failed to find the target picture resolution");
+                }
+            }
+</code></pre></div></div>
+<p>The auto exposure was set to ON in this program and the flash is set to OFF since we use external lighting.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>captureBuilder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_ON);
+captureBuilder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_OFF);
+</code></pre></div></div>
+
+<p>After capturing the image, I convert the buffer to bitmap to store and to convert again to cv::Mat format fo C++ function to manipulate. Once the C++ function finish its work. We then display the detection result in the center by calling the <code class="highlighter-rouge">toast</code>. And, we convert the cv::Mat back to bitmap and store both the raw image and the modified one. The opencv matToBitmap function and the store_img helper function do the trink in takPicture function.</p>
+
+<p><strong><em>JNI and C++ Part</em></strong></p>
+
+<p>In Java, I can not pass the Mat directly. In stead, JNI allows us to pass the address of the Mat to C++. So, here we use <code class="highlighter-rouge">getNativeObjAddr()</code> to pass the address to C++ function. There are some helper functions to do the format conversion. You can refer to the source code listed in the bottom for details.</p>
+
+<p>The c++ function is matProcessing, it takes the address of the Mat, and a boolean value of which mode it is with. The return value of the function is the average saturation value it collects.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>satReading = matProcessing(imageGrab.getNativeObjAddr(), switchKey);
+</code></pre></div></div>
+<p>Most of the C++ function is the same as in the stage 1 except there is no color checker in the demostration so the calibration target is the pad itself. Originally, we store the images on the computer. On the android, we have the java part to use the buffer to store the image. Another modified Mat with features marked is stored back at the same address the JNI passed into C++.</p>
+
+<p><strong><em>OpenCV and CMakeLists.txt</em></strong></p>
+
+<p>To have the Android working with OpenCV, we need <code class="highlighter-rouge">opencv-android-sdk</code>. And, to work with C++, at the time creating project, be sure to check C++ support.</p>
+
+<p>My way making this project working with OpenCV is to import the OpenCV into the project and adding it to the app dependencies.</p>
+
+<p><img src="/assets/img/projects/proj-6/structure.png" alt="dependencies" /></p>
+
+<p>In the app/src/main folder, create a <code class="highlighter-rouge">jniLibs</code> and copy the ABIs folders located in the /sdk/native/libs parent folder inside opencv-android-sdk. This is to build the code for corresponding ABIs. For example, the Samsung note 4 is <code class="highlighter-rouge">armeabi-v7a</code>. During cmake, the program looks for corresponding library in these sub-folders.</p>
+
+<p>the android studio supports cmake so I can modify the CMakeLists.txt to add OpenCV support. The modification includes set include directories, add_library, set lib_opencv property.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>include_directories(WHERE THE OpenCV-android-sdk/sdk/native/jni/include LOCATES)
+add_library( lib_opencv SHARED IMPORTED )
+set_target_properties(lib_opencv PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/src/main/jniLibs/${ANDROID_ABI}/libopencv_java3.so)
+</code></pre></div></div>
+
+<h4 id="calibration">Calibration</h4>
+<p>In this project, we don’t have the groundtruth to make the calibration and to fit the curve. Under different ambient lighting condition, I do notice color temperature changes and exposure level change even with auto white balance function. So, a stable continuous lighting is necessary. The reflective cover layer of the sample can be a bit annonying with direct lighting from the phone’s flashlight. With exteranl lighting from off-axis, it works fine and stable.</p>
+
+<p><img src="/assets/img/projects/proj-6/sample.png" alt="lighting" /></p>
+
+<p>Once we have the groundtruth, I will proceed the calibration and have the better idea about its accuracy, resolution and linear region.</p>
+
+<h4 id="application">Application</h4>
+
+<p>Considering the use cases are normally not in lab environment, this app can be for fitness purpose but not medical instrument. For example, to have the linear region seperated into 3 sub-regions which indicate <code class="highlighter-rouge">Dangerous</code>, <code class="highlighter-rouge">Warning</code> and <code class="highlighter-rouge">Normal</code>.</p>
+
+<h4 id="to-do">To-Do</h4>
+
+<p>On the note 4, there are several open issues to be dealt with:</p>
+<ol>
+  <li>
+    <p>There isn’t permission window pop-up first time executing this program. The program still has the permission to access the camera and the storage. However, it uses the internal storage instead of the external one. this issue doesn’t show on the OnePlus phone and the pixel 2.</p>
+  </li>
+  <li>The image stored don’t show up before restart. This is related to the issue 1. To access the image, a restart is necessary.</li>
+  <li>One capture only: After taking a picture for analysis, the program captures the image and stores it. It then calls the creatCameraPreview function to return to the preview mode for next capture. However, sometimes, the program freeses and the preview doesn’t show up without a display off/on cycle.</li>
+</ol>
+</div>
+  </div>
+  
+</section>
+<footer>
+  <div class="footer-wrap">
+    <div class="footer-tagline">
+      <p></p>
+    </div>
+    <div class="social-media">
+      <nav>
+        
+          <a href="http://instagram.com/roxetti" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+        
+          <a href="http://github.com/evanchien" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
+        
+          <a href="http://linkedin.com/in/evanchien" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+        
+          <a href="mailto:#evan.ch.chien@gmail.com" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+        
+      </nav>
+    </div>
+  </div>
+</footer>
+
+
+
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="/assets/js/functions.js"></script>
+</body>
+</html>
