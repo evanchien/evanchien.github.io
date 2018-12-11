@@ -86,9 +86,10 @@
 <h4 id="system-requirements">System Requirements</h4>
 
 <p>Android Phone with Android ver. 5.0 or Higher
-Rear camera supporting resolution 1920x1080</p>
+Rear camera supporting resolution 1920x1080
+100MB or more space to install the package</p>
 
-<p>Tested on: Pixel2, Samsung Note 4 and OnePlus 5</p>
+<p>(Tested on: Pixel2, Samsung Note 4 and OnePlus 5)</p>
 
 <h4 id="hardware-setup">Hardware Setup</h4>
 <p>In order to have stable exposure and white balance, extra lighting is expected. In this project, I chose external LED lighting (from an iPhone 6s) instead of the built-in flash light because the position of the flash is too close to the sample and it causes over-exposure. In the future, the development of a mounted lighting paired with the program is necessary.</p>
@@ -174,12 +175,18 @@ add_library( lib_opencv SHARED IMPORTED )
 set_target_properties(lib_opencv PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/src/main/jniLibs/${ANDROID_ABI}/libopencv_java3.so)
 </code></pre></div></div>
 
-<h4 id="calibration">Calibration</h4>
-<p>In this project, we don’t have the groundtruth to make the calibration and to fit the curve. Under different ambient lighting condition, I do notice color temperature changes and exposure level change even with auto white balance function. So, a stable continuous lighting is necessary. The reflective cover layer of the sample can be a bit annonying with direct lighting from the phone’s flashlight. With exteranl lighting from off-axis, it works fine and stable.</p>
+<h4 id="calibrationperformance">Calibration/Performance</h4>
+<p>In this project, I don’t have the real samples to make the calibration and to fit the curve. Instead,  I have the scanned digital pictures. So, the performance evaluation is based on the reading from printed pictures.</p>
 
-<p><img src="/assets/img/projects/proj-6/sample.png" alt="lighting" /></p>
+<p>As illustrated below, there isn’t reading of 10mM due to reading not available with the mobile app. I also disabled the white balance/contrast enhancement function (simpleCB) to prevent overkill due to lower dynamic range. As you may find in my code, the exposure control is done by fixing the ISO and the exposure time. The white balance is control by the stable external lighting.</p>
 
-<p>Once we have the groundtruth, I will proceed the calibration and have the better idea about its accuracy, resolution and linear region.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>captureBuilder.set(CaptureRequest.SENSOR_SENSITIVITY, isoValue);
+captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, exposureTimeValueInMilliseconds);
+</code></pre></div></div>
+
+<p>From the reading, we see that as long as we have a stable light source, we have roughly the same trend on the PC software and the Android application. One thing to note is that the mobile is not noise-proof, which means to get a proper reading, one might need to take a few shots to make sure. Plus, the mobile app doesn’t work with lower concentration.</p>
+
+<p><img src="/assets/img/projects/proj-6/table.jpg" alt="comparison" /></p>
 
 <h4 id="application">Application</h4>
 
@@ -192,8 +199,12 @@ set_target_properties(lib_opencv PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_SO
   <li>
     <p>There isn’t permission window pop-up first time executing this program. The program still has the permission to access the camera and the storage. However, it uses the internal storage instead of the external one. this issue doesn’t show on the OnePlus phone and the pixel 2.</p>
   </li>
-  <li>The image stored don’t show up before restart. This is related to the issue 1. To access the image, a restart is necessary.</li>
-  <li>One capture only: After taking a picture for analysis, the program captures the image and stores it. It then calls the creatCameraPreview function to return to the preview mode for next capture. However, sometimes, the program freeses and the preview doesn’t show up without a display off/on cycle.</li>
+  <li>
+    <p>The image stored don’t show up before restart. This is related to the issue 1. To access the image in the photo or the galary app, a restart is necessary. Otherwise, one can access the image in the built-in explorer app.</p>
+  </li>
+  <li>
+    <p>Long capture gap: After taking a picture for analysis, the program captures the image and stores it. It then calls the creatCameraPreview function to return to the preview mode for next capture. However, it takes long time for the program to clear the cache and move to the preview mode.</p>
+  </li>
 </ol>
 
 <p>In order to support different features, I also plan to add a function so the users can draw a custom overlay, crosshair for example, to guide the program where the features locate. This can further prevent false detection and improve the accuracy.</p>
