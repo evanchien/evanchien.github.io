@@ -92,7 +92,10 @@ Rear camera supporting resolution 1920x1080
 <p>(Tested on: Pixel2, Samsung Note 4 and OnePlus 5)</p>
 
 <h4 id="hardware-setup">Hardware Setup</h4>
-<p>In order to have stable exposure and white balance, extra lighting is expected. In this project, I chose external LED lighting (from an iPhone 6s) instead of the built-in flash light because the position of the flash is too close to the sample and it causes over-exposure. In the future, the development of a mounted lighting paired with the program is necessary.</p>
+<p>In order to have stable exposure and white balance, extra lighting is expected. In this project, I chose external LED lighting (from an iPhone 6s or from a desk lamp) instead of the built-in flash light because the position of the flash is too close to the sample and it causes over-exposure. In the future, the development of a mounted lighting paired with the program is necessary.</p>
+
+<h4 id="installation">Installation</h4>
+<p>As long as the package is downloaded, users can build and install the apk with Android Studio.</p>
 
 <h4 id="software-design">Software Design</h4>
 <p><strong>Android/Java</strong><br />
@@ -102,7 +105,7 @@ The Java portion is responsible for the camera control, external storage access 
 
 <p>At the first time opening the program, two pop-up windows would show and ask for permission using camera and storage. Once the user agrees, a preview mode would show as in screenshot below.</p>
 
-<p>The user should align (roughly) the test pattern with the blue rectangle, make sure the long sides aligned with the long sides of the bos, check if the focus is correct and press the capture button for the analysis process to begin.</p>
+<p>The user should align (roughly) the test pattern with the blue rectangle, make sure the tiny circles aligned with the long sides of the blue box, check if the focus is correct and press the capture button for the analysis process to begin.</p>
 <center><img src="/assets/img/projects/proj-4/UI.png" alt="drawing" width="200px" /></center>
 
 <p>Once the analysis finished, a pop-up in the center would show to provide the average <code class="highlighter-rouge">saturation</code> value of this analysis. Another pop-up at the buttom indicates the path and the file name of the unprocessed image file. The image is stored in the folder named as the program.</p>
@@ -113,7 +116,7 @@ The Java portion is responsible for the camera control, external storage access 
 
 <p>The layout is with <code class="highlighter-rouge">RelativeLayout</code> to ensure the position of the buttons doesn’t change on phones with different resolution. The blue rectanle is however needed to be adjust to fit the phone. It is not due to the resolution but due to the different minimum focus distance of the camera used. The setup in this program should work on most phones.</p>
 
-<p>Once the <code class="highlighter-rouge">CAPTURE</code> button is clicked, two pop-up windows would show. One in the center indicates the average saturation value of the test area it captured. Another is the location and the file name of the stored image. Please note there are two images being stored. One is the original image without feature visualized in a sub-folder named the same as the program name. Another one is within the root folder of the external storage. Users can check both of the images and retake if the features are not well-recognized or the picture is blurry or shaded.</p>
+<p>Once the <code class="highlighter-rouge">CAPTURE</code> button is clicked, two pop-up windows would show. One in the center indicates the average saturation value of the test area it captured. Another is the location and the file name of the stored image. Please note there are two images being stored. Both are under the application sub-foler in the Gallery folder. Users can check both of the images and retake if the features are not well-recognized or the picture is blurry or shaded.</p>
 
 <p>Below is a demostration of how a picture with false detection look like. One of the circle is not within the test area. When a detection like this shows, it is suggested that the user to redo the capture.</p>
 
@@ -186,11 +189,13 @@ captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, exposureTimeValueInMilli
 
 <p>From the reading, we see that as long as we have a stable light source, we have roughly the same trend on the PC software and the Android application. One thing to note is that the mobile is not noise-proof, which means to get a proper reading, one might need to take a few shots to make sure. Plus, the mobile app doesn’t work with lower concentration.</p>
 
+<p>Once I have samples with finer resolution, for example, 5mM delta between each, I can evaluate the linearity in more detail.</p>
+
 <p><img src="/assets/img/projects/proj-6/table.jpg" alt="comparison" /></p>
 
 <h4 id="application">Application</h4>
 
-<p>Considering the use cases are normally not in lab environment, this app can be for fitness purpose but not medical instrument. For example, to have the linear region seperated into 3 sub-regions which indicate <code class="highlighter-rouge">Dangerous</code>, <code class="highlighter-rouge">Warning</code> and <code class="highlighter-rouge">Normal</code>.</p>
+<p>Considering the use cases are normally not in lab environment, plus the sample we have are not with fine resolution, the linearity is not guaranteed. Thus, I would suggest to use the application as a reference but not as an instrument at this moment.</p>
 
 <h4 id="to-do">To-Do</h4>
 
@@ -203,14 +208,14 @@ captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, exposureTimeValueInMilli
     <p>The image stored don’t show up before restart. This is related to the issue 1. To access the image in the photo or the galary app, a restart is necessary. Otherwise, one can access the image in the built-in explorer app.</p>
   </li>
   <li>
-    <p>Long capture gap: After taking a picture for analysis, the program captures the image and stores it. It then calls the creatCameraPreview function to return to the preview mode for next capture. However, it takes long time for the program to clear the cache and move to the preview mode.</p>
+    <p>Long capture gap: After taking a picture for analysis, the program captures the image and stores it. It then calls the creatCameraPreview function to return to the preview mode for next capture. However, it takes long time for the program to clear the cache and move to the preview mode. If users face this failure, suspend/resume cycles solves this failure.</p>
   </li>
 </ol>
 
 <p>In order to support different features, I also plan to add a function so the users can draw a custom overlay, crosshair for example, to guide the program where the features locate. This can further prevent false detection and improve the accuracy.</p>
 
 <h4 id="the-package">The Package</h4>
-<p>If you are interested in the details of this application. <a href="https://drive.google.com/open?id=1DuXq-VN57F3Y14Mt1oJNUD3z55Zevz8N">Here</a> is the link to zipped file. It is around 1.2GB with OpenCV sdk. Please feel free to contact me with any question.</p>
+<p>If you are interested in the details of this application. <a href="https://github.com/evanchien/Android_pattern_recog">Here</a> is the link to this project. The OpenCV folder is removed due to size consideration. Please folow the instruction above to reconstruct the project and feel free to contact me with any question.</p>
 </div>
   </div>
   
