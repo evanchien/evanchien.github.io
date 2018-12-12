@@ -85,8 +85,9 @@
 
 <h4 id="system-requirements">System Requirements</h4>
 
-<p>Android Phone with Android ver. 5.0 or Higher
-Rear camera supporting resolution 1920x1080
+<p>Android Phone with Android ver. 5.0 or Higher</p>
+
+<p>Rear camera supporting resolution 1920x1080
 100MB or more space to install the package</p>
 
 <p>(Tested on: Pixel2, Samsung Note 4 and OnePlus 5)</p>
@@ -98,10 +99,11 @@ Rear camera supporting resolution 1920x1080
 <p>As long as the package is downloaded, users can build and install the apk with Android Studio.</p>
 
 <h4 id="software-design">Software Design</h4>
-<p><strong>Android/Java</strong><br />
-The Java portion is responsible for the camera control, external storage access and user interface.</p>
-
-<p><strong><em>The User Interface</em></strong></p>
+<p><br />
+<strong>Android/Java</strong><br />
+The Java portion is responsible for the camera control, external storage access and user interface. 
+<br />
+<strong><em>The User Interface</em></strong></p>
 
 <p>At the first time opening the program, two pop-up windows would show and ask for permission using camera and storage. Once the user agrees, a preview mode would show as in screenshot below.</p>
 
@@ -126,7 +128,8 @@ The Java portion is responsible for the camera control, external storage access 
 
 <center><img src="/assets/img/projects/proj-4/OK.png" alt="drawing" width="400px" /></center>
 
-<p><strong><em>The Camera2 Package</em></strong><br />
+<p><br />
+<strong><em>The Camera2 Package</em></strong><br />
 From API 21 (ver. 5.0), the new camera2 replaces the camera package. The core function is the same. In the program, I locked the capture resolution to 1920x1080 to save the bandwidth and to shorten the processing time. Also, the resolution should work on most of the phones. In the <code class="highlighter-rouge">takePicture</code> function, we look for the preset and output an error log if the preset is not within the supported resolution list.</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CameraCharacteristics characteristics = manager.getCameraCharacteristics(cameraDevice.getId());
@@ -152,7 +155,8 @@ captureBuilder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_OFF);
 
 <p>After capturing the image, I convert the buffer to bitmap to store and to convert again to cv::Mat format fo C++ function to manipulate. Once the C++ function finish its work. We then display the detection result in the center by calling the <code class="highlighter-rouge">toast</code>. And, we convert the cv::Mat back to bitmap and store both the raw image and the modified one. The opencv matToBitmap function and the store_img helper function do the trink in takPicture function.</p>
 
-<p><strong><em>JNI and C++ Part</em></strong></p>
+<p><br />
+<strong><em>JNI and C++ Part</em></strong></p>
 
 <p>In Java, I can not pass the Mat directly. In stead, JNI allows us to pass the address of the Mat to C++. So, here we use <code class="highlighter-rouge">getNativeObjAddr()</code> to pass the address to C++ function. There are some helper functions to do the format conversion. You can refer to the source code listed in the bottom for details.</p>
 
@@ -161,7 +165,8 @@ captureBuilder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_OFF);
 </code></pre></div></div>
 <p>Most of the C++ function is the same as in the stage 1 except there is no color checker in the demostration so the calibration target is the pad itself. Originally, we store the images on the computer. On the android, we have the java part to use the buffer to store the image. Another modified Mat with features marked is stored back at the same address the JNI passed into C++.</p>
 
-<p><strong><em>OpenCV and CMakeLists.txt</em></strong></p>
+<p><br />
+<strong><em>OpenCV and CMakeLists.txt</em></strong></p>
 
 <p>To have the Android working with OpenCV, we need <code class="highlighter-rouge">opencv-android-sdk</code>. And, to work with C++, at the time creating project, be sure to check C++ support.</p>
 
@@ -178,6 +183,7 @@ add_library( lib_opencv SHARED IMPORTED )
 set_target_properties(lib_opencv PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/src/main/jniLibs/${ANDROID_ABI}/libopencv_java3.so)
 </code></pre></div></div>
 
+<p><br /></p>
 <h4 id="calibrationperformance">Calibration/Performance</h4>
 <p>In this project, I don’t have the real samples to make the calibration and to fit the curve. Instead,  I have the scanned digital pictures. So, the performance evaluation is based on the reading from printed pictures.</p>
 
@@ -191,12 +197,13 @@ captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, exposureTimeValueInMilli
 
 <p>Once I have samples with finer resolution, for example, 5mM delta between each, I can evaluate the linearity in more detail.</p>
 
-<p><img src="/assets/img/projects/proj-6/table.jpg" alt="comparison" /></p>
-
+<p><img src="/assets/img/projects/proj-6/table.jpg" alt="comparison" /><br />
+<br /></p>
 <h4 id="application">Application</h4>
 
 <p>Considering the use cases are normally not in lab environment, plus the sample we have are not with fine resolution, the linearity is not guaranteed. Thus, I would suggest to use the application as a reference but not as an instrument at this moment.</p>
 
+<p><br /></p>
 <h4 id="to-do">To-Do</h4>
 
 <p>On the note 4, there are several open issues to be dealt with:</p>
@@ -214,6 +221,7 @@ captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, exposureTimeValueInMilli
 
 <p>In order to support different features, I also plan to add a function so the users can draw a custom overlay, crosshair for example, to guide the program where the features locate. This can further prevent false detection and improve the accuracy.</p>
 
+<p><br /></p>
 <h4 id="the-package">The Package</h4>
 <p>If you are interested in the details of this application. <a href="https://github.com/evanchien/Android_pattern_recog">Here</a> is the link to this project. The OpenCV folder is removed due to size consideration. Please folow the instruction above to reconstruct the project and feel free to contact me with any question.</p>
 </div>
