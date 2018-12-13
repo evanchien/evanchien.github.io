@@ -185,7 +185,7 @@ set_target_properties(lib_opencv PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_SO
 
 <p><br /></p>
 <h4 id="calibrationperformance">Calibration/Performance</h4>
-<p>In this project, I don’t have the real samples to make the calibration and to fit the curve. Instead,  I have the scanned digital pictures. So, the performance evaluation is based on the reading from printed pictures.</p>
+<p>In this project, I don’t have the real samples to make the calibration and to fit the curve. Instead, I have the scanned digital pictures. So, the performance evaluation is based on the reading from printed pictures. (<a href="https://drive.google.com/open?id=1KFTs9vaC5OIOFzPoN2HI1kt3B0Bw7T-0">Here</a> is the link to the folder of the images been processed.)</p>
 
 <p>As illustrated below, there isn’t reading of 10mM due to reading not available with the mobile app. I also disabled the white balance/contrast enhancement function (simpleCB) to prevent overkill due to lower dynamic range. As you may find in my code, the exposure control is done by fixing the ISO and the exposure time. The white balance is control by the stable external lighting.</p>
 
@@ -195,7 +195,7 @@ captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, exposureTimeValueInMilli
 
 <p>From the reading, we see that as long as we have a stable light source, we have roughly the same trend on the PC software and the Android application. One thing to note is that the mobile is not noise-proof, which means to get a proper reading, one might need to take a few shots to make sure. Plus, the mobile app doesn’t work with lower concentration.</p>
 
-<p>Once I have samples with finer resolution, for example, 5mM delta between each, I can evaluate the linearity in more detail.</p>
+<p>Once I have samples with better resolution, for example, 5mM delta between each, I can evaluate the linearity in more detail.</p>
 
 <p><img src="/assets/img/projects/proj-6/table.jpg" alt="comparison" /><br />
 <br /></p>
@@ -215,7 +215,7 @@ captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, exposureTimeValueInMilli
     <p>The image stored don’t show up before restart. This is related to the issue 1. To access the image in the photo or the galary app, a restart is necessary. Otherwise, one can access the image in the built-in explorer app.</p>
   </li>
   <li>
-    <p>Long capture gap: After taking a picture for analysis, the program captures the image and stores it. It then calls the creatCameraPreview function to return to the preview mode for next capture. However, it takes long time for the program to clear the cache and move to the preview mode. If users face this failure, suspend/resume cycles solves this failure.</p>
+    <p>Long capture gap: After taking a picture for analysis, the program captures the image and stores it. It then calls the creatCameraPreview function to return to the preview mode for next capture. However, it takes long time for the program to clear the cache and move back to the preview mode. If users face this failure, suspend/resume cycles solve this failure.</p>
   </li>
 </ol>
 
