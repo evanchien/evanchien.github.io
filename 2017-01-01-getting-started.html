@@ -10,7 +10,7 @@
 
   <title>
     
-      Evan's Personal page
+      Notes for Computer Vision | Evan's Personal page
     
   </title>
 
@@ -31,18 +31,18 @@
 
   <!-- Use Jekyll SEO plugin -->
   <!-- Begin Jekyll SEO tag v2.4.0 -->
-<title>Home | Evan’s Personal page</title>
+<title>Notes for Computer Vision | Evan’s Personal page</title>
 <meta name="generator" content="Jekyll v3.6.2" />
-<meta property="og:title" content="Home" />
+<meta property="og:title" content="Notes for Computer Vision" />
 <meta name="author" content="Paul Le" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Powered by Jekyll and GitHub Pages" />
 <meta property="og:description" content="Powered by Jekyll and GitHub Pages" />
-<link rel="canonical" href="http://localhost:4000/" />
-<meta property="og:url" content="http://localhost:4000/" />
+<link rel="canonical" href="http://localhost:4000/2017-01-01-getting-started.html" />
+<meta property="og:url" content="http://localhost:4000/2017-01-01-getting-started.html" />
 <meta property="og:site_name" content="Evan’s Personal page" />
 <script type="application/ld+json">
-{"headline":"Home","@type":"WebSite","url":"http://localhost:4000/","name":"Evan’s Personal page","author":{"@type":"Person","name":"Paul Le"},"description":"Powered by Jekyll and GitHub Pages","@context":"http://schema.org"}</script>
+{"headline":"Notes for Computer Vision","@type":"WebPage","url":"http://localhost:4000/2017-01-01-getting-started.html","author":{"@type":"Person","name":"Paul Le"},"description":"Powered by Jekyll and GitHub Pages","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -70,60 +70,46 @@
 
 
   <section>
-  <div class="thumb-container">
-    
-      <a href="/projects/proj-1.html">
-        <div class="thumb-unit" data-folder="/projects/proj-1" style="background-image: url(/assets/img/projects/proj-1/thumb.jpg)">
-          <div class="thumb-overlay">
-            <strong>CV - Gesture calligraphy <i class="fa fa-arrow-right" aria-hidden="true"></i></strong>
-          </div>
-        </div>
-      </a>
-    
-      <a href="/projects/proj-2.html">
-        <div class="thumb-unit" data-folder="/projects/proj-2" style="background-image: url(/assets/img/projects/proj-2/thumb.jpg)">
-          <div class="thumb-overlay">
-            <strong>CV/control -Sawyer travel <i class="fa fa-arrow-right" aria-hidden="true"></i></strong>
-          </div>
-        </div>
-      </a>
-    
-      <a href="/projects/proj-3.html">
-        <div class="thumb-unit" data-folder="/projects/proj-3" style="background-image: url(/assets/img/projects/proj-3/thumb.jpg)">
-          <div class="thumb-overlay">
-            <strong>Running Cozmo - MSR Winter Project <i class="fa fa-arrow-right" aria-hidden="true"></i></strong>
-          </div>
-        </div>
-      </a>
-    
-      <a href="/projects/proj-4.html">
-        <div class="thumb-unit" data-folder="/projects/proj-4" style="background-image: url(/assets/img/projects/proj-4/thumb.jpg)">
-          <div class="thumb-overlay">
-            <strong>CV - Pattern recognition <i class="fa fa-arrow-right" aria-hidden="true"></i></strong>
-          </div>
-        </div>
-      </a>
-    
-      <a href="/projects/proj-5.html">
-        <div class="thumb-unit" data-folder="/projects/proj-5" style="background-image: url(/assets/img/projects/proj-5/thumb.jpg)">
-          <div class="thumb-overlay">
-            <strong>Objection Detection w/ Tensorflow <i class="fa fa-arrow-right" aria-hidden="true"></i></strong>
-          </div>
-        </div>
-      </a>
-    
-      <a href="/projects/proj-6.html">
-        <div class="thumb-unit" data-folder="/projects/proj-6" style="background-image: url(/assets/img/projects/proj-6/thumb.jpg)">
-          <div class="thumb-overlay">
-            <strong>CV-applied pattern extraction on Android <i class="fa fa-arrow-right" aria-hidden="true"></i></strong>
-          </div>
-        </div>
-      </a>
-    
+  <div class="work-container">
+    <h4 class="project-title">Notes for Computer Vision</h4>
+    <div class="project-load"><h2 id="feature-extraction">Feature extraction</h2>
+<ul>
+  <li>
+    <h4 id="sift">SIFT</h4>
+  </li>
+  <li>
+    <h4 id="surf">SURF</h4>
+  </li>
+  <li>
+    <h4 id="orb"><strong>ORB</strong></h4>
+
+    <ul>
+      <li><strong>Oriented FAST (features from accelerated segment test)</strong>
+        <ul>
+          <li>point counts, Harris score</li>
+          <li>radius</li>
+          <li>threshold</li>
+          <li>Counts: FAST-9, FAST-10,…</li>
+          <li>3/4 of the points on the axis</li>
+          <li>Non-max suppression</li>
+          <li>Intensity centroid for direction</li>
+        </ul>
+      </li>
+      <li><strong>rBRIEF</strong>
+        <ul>
+          <li>Hamming distance</li>
+          <li>Rotational invariance from intensity centroid</li>
+          <li>Better match: distance &lt; max(2* min distance, 30)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+</div>
   </div>
+  
 </section>
-
-
 <footer>
   <div class="footer-wrap">
     <div class="footer-tagline">
