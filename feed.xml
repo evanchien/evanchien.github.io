@@ -1,26 +1,44 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-02-16T14:34:32-06:00</updated><id>http://localhost:4000/</id><title type="html">Evan’s Personal page</title><subtitle>Powered by Jekyll and GitHub Pages</subtitle><author><name>Paul Le</name></author><entry><title type="html">Loss Functions in YOLOv3</title><link href="http://localhost:4000/Loss-Functions.html" rel="alternate" type="text/html" title="Loss Functions in YOLOv3" /><published>2021-02-16T00:00:00-06:00</published><updated>2021-02-16T00:00:00-06:00</updated><id>http://localhost:4000/Loss-Functions</id><content type="html" xml:base="http://localhost:4000/Loss-Functions.html">&lt;h3 id=&quot;bounding-boxes&quot;&gt;Bounding Boxes&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-02-16T15:20:19-06:00</updated><id>http://localhost:4000/</id><title type="html">Evan’s Personal page</title><subtitle>Powered by Jekyll and GitHub Pages</subtitle><author><name>Paul Le</name></author><entry><title type="html">Loss Functions in YOLOv3</title><link href="http://localhost:4000/Loss-Functions.html" rel="alternate" type="text/html" title="Loss Functions in YOLOv3" /><published>2021-02-16T00:00:00-06:00</published><updated>2021-02-16T00:00:00-06:00</updated><id>http://localhost:4000/Loss-Functions</id><content type="html" xml:base="http://localhost:4000/Loss-Functions.html">&lt;h3 id=&quot;bounding-boxes&quot;&gt;Bounding Boxes&lt;/h3&gt;
 
-&lt;p&gt;For bounding boxes, the loss is MSE of 1. delta in center coordinates and 2. delta in width and height.&lt;br /&gt;
-$b_x$ = $\sigma$($t_x$) + $c_x$&lt;br /&gt;
-$b_y$ = $\sigma$($t_y$) = $c_y$&lt;br /&gt;
-$b_w$ = $p_w&lt;script type=&quot;math/tex&quot;&gt;e^{t_w}$
-$b_h$ = $p_h&lt;/script&gt;e^{t_h}$&lt;/p&gt;
+&lt;p&gt;For bounding boxes, the loss is MSE of&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Delta in center coordinates&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Delta in width and height&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;!-- $b_x = \sigma(t_x) + c_x$ --&gt;
+&lt;p&gt;&lt;img style=&quot;transform: translateY(0.1em); background: white;&quot; src=&quot;https://render.githubusercontent.com/render/math?math=b_x%20%3D%20%5Csigma(t_x)%20%2B%20c_x&quot; /&gt;&lt;br /&gt;
+&lt;!-- $b_y = \sigma(t_y) = c_y$ --&gt; &lt;img style=&quot;transform: translateY(0.1em); background: white;&quot; src=&quot;https://render.githubusercontent.com/render/math?math=b_y%20%3D%20%5Csigma(t_y)%20%3D%20c_y&quot; /&gt;&lt;br /&gt;
+&lt;!-- $b_w = p_we^{t_w}$ --&gt; &lt;img style=&quot;transform: translateY(0.1em); background: white;&quot; src=&quot;https://render.githubusercontent.com/render/math?math=b_w%20%3D%20p_we%5E%7Bt_w%7D&quot; /&gt;
+&lt;!-- $b_h = p_he^{t_h}$ --&gt; &lt;img style=&quot;transform: translateY(0.1em); background: white;&quot; src=&quot;https://render.githubusercontent.com/render/math?math=b_h%20%3D%20p_he%5E%7Bt_h%7D&quot; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;classification&quot;&gt;Classification&lt;/h3&gt;
 
 &lt;p&gt;In YOLOv3, the loss for classification is Binary Cross-Entropy loss rather than the general Softmax CE. Softmax links the confidence of each class together while Binary CE keeps them independent. We can treat a binary CE as a 2-class CE.&lt;/p&gt;
 
-&lt;p&gt;CE = - t $\log( f ( s ) )$ - ( 1 - t ) $\log( 1 - f ( s ) )$ , where s and 1 - f ( s ) are the score for positive and negative, t and (1-t) are the ground truth.&lt;/p&gt;
+&lt;!-- $CE = -t\log( f ( s ) )$ - ( 1 - t ) $\log( 1 - f ( s ) )$ --&gt;
+&lt;p&gt;&lt;img style=&quot;transform: translateY(0.1em); background: white;&quot; src=&quot;https://render.githubusercontent.com/render/math?math=CE%20%3D%20-t%5Clog(%20f%20(%20s%20)%20)%24%20-%20(%201%20-%20t%20)%20%24%5Clog(%201%20-%20f%20(%20s%20)%20)&quot; /&gt; , where s and 1 - f ( s ) are the score for positive and negative, t and (1-t) are the ground truth.&lt;/p&gt;
 
-&lt;p&gt;Applying this to each class, the combined loss for class $C_i$ is as:&lt;/p&gt;
+&lt;p&gt;Applying this to each class, the combined loss for class &lt;!-- $C_i$ --&gt; &lt;img style=&quot;transform: translateY(0.1em); background: white;&quot; src=&quot;https://render.githubusercontent.com/render/math?math=C_i&quot; /&gt; is as:&lt;/p&gt;
 
-&lt;p&gt;CE = $\begin{matrix} - \log(f(s_i))\-\log(1-f(s_i))&amp;amp;  \end{matrix}     \begin{matrix} if\ t_i = 1\ (object)\if \ t_i = 0\ (background)\end{matrix}$ , where f ( $s_i$ ) = $\frac{1}{1 + e^{-s_i}}$&lt;/p&gt;
+&lt;!-- $CE=\begin{matrix} - \log(f(s_i))\\-\log(1-f(s_i))&amp;  \end{matrix}$ --&gt;
+&lt;p&gt;&lt;img style=&quot;transform: translateY(0.1em); background: white;&quot; src=&quot;https://render.githubusercontent.com/render/math?math=CE%3D%5Cbegin%7Bmatrix%7D%20-%20%5Clog(f(s_i))%5C%5C-%5Clog(1-f(s_i))%26%20%20%5Cend%7Bmatrix%7D&quot; /&gt; &lt;!-- $\begin{matrix} ,t_i = 1(object)\\,t_i = 0(background)\end{matrix} , where f(s_i)=\frac{1}{1 + e^{-s_i}}$ --&gt; &lt;img style=&quot;transform: translateY(0.1em); background: white;&quot; src=&quot;https://render.githubusercontent.com/render/math?math=%5Cbegin%7Bmatrix%7D%20%2Ct_i%20%3D%201(object)%5C%5C%2Ct_i%20%3D%200(background)%5Cend%7Bmatrix%7D%20%2C%20where%20f(s_i)%3D%5Cfrac%7B1%7D%7B1%20%2B%20e%5E%7B-s_i%7D%7D&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;The gradient respect to the score $s_i$ = $S_1$ can be written as:&lt;/p&gt;
+&lt;p&gt;The gradient respect to the score &lt;!-- $s_i = S_1$ --&gt; &lt;img style=&quot;transform: translateY(0.1em); background: white;&quot; src=&quot;https://render.githubusercontent.com/render/math?math=s_i%20%3D%20S_1&quot; /&gt; can be written as:&lt;/p&gt;
 
-&lt;p&gt;$\frac{\partial }{\partial S_i}$(CE ( f ( $s_i$ ) ) ) = $t_1$ ( f ( $s_1$ ) -1) + (1 - $t_1$) f ( $s_1$ )  ,where f( $s_i$ ) is the sigmoid fn,  ( f = $\frac{1}{1+e^{-x}})$ , $\frac {df}{dx} $ = $\frac{e^{-x}}{(1+e^{-x})^2}$ = f ( 1- f )
-or&lt;br /&gt;
-$\frac{\partial }{\partial S_i}$(CE ( f ( $s_i$ ) ) ) = $\begin{matrix} f ( s_i)-1 \f ( s_i)&amp;amp;  \end{matrix}$ $\begin{matrix} if&amp;amp;t_i = 1\if &amp;amp;t_i = 0\end{matrix}$&lt;/p&gt;</content><author><name>Paul Le</name></author><summary type="html">Bounding Boxes</summary></entry><entry><title type="html">Move linux system from one SSD to another</title><link href="http://localhost:4000/Move-linux.html" rel="alternate" type="text/html" title="Move linux system from one SSD to another" /><published>2020-12-04T00:00:00-06:00</published><updated>2020-12-04T00:00:00-06:00</updated><id>http://localhost:4000/Move-linux</id><content type="html" xml:base="http://localhost:4000/Move-linux.html">&lt;h3 id=&quot;what-we-need-to-transfer-the-system&quot;&gt;What We Need To Transfer The System&lt;/h3&gt;
+&lt;!-- $\frac{\partial }{\partial S_i}(CE ( f ( s_i ) ) ) = t_1 ( f ( s_1 ) -1) + (1 - t_1) f ( s_1 )$ --&gt;
+&lt;p&gt;&lt;img style=&quot;transform: translateY(0.1em); background: white;&quot; src=&quot;https://render.githubusercontent.com/render/math?math=%5Cfrac%7B%5Cpartial%20%7D%7B%5Cpartial%20S_i%7D(CE%20(%20f%20(%20s_i%20)%20)%20)%20%3D%20t_1%20(%20f%20(%20s_1%20)%20-1)%20%2B%20(1%20-%20t_1)%20f%20(%20s_1%20)&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;or&lt;/p&gt;
+
+&lt;!-- $\frac{\partial }{\partial S_i}(CE ( f ( s_i ) ) ) = \begin{matrix} f ( s_i)-1 \\f ( s_i)&amp;  \end{matrix}$ --&gt;
+&lt;p&gt;&lt;img style=&quot;transform: translateY(0.1em); background: white;&quot; src=&quot;https://render.githubusercontent.com/render/math?math=%5Cfrac%7B%5Cpartial%20%7D%7B%5Cpartial%20S_i%7D(CE%20(%20f%20(%20s_i%20)%20)%20)%20%3D%20%5Cbegin%7Bmatrix%7D%20f%20(%20s_i)-1%20%5C%5Cf%20(%20s_i)%26%20%20%5Cend%7Bmatrix%7D&quot; /&gt; &lt;!-- $\begin{matrix} if&amp;t_i = 1\\if &amp;t_i = 0\end{matrix}$ --&gt; &lt;img style=&quot;transform: translateY(0.1em); background: white;&quot; src=&quot;https://render.githubusercontent.com/render/math?math=%5Cbegin%7Bmatrix%7D%20if%26t_i%20%3D%201%5C%5Cif%20%26t_i%20%3D%200%5Cend%7Bmatrix%7D&quot; /&gt;,&lt;br /&gt;
+&lt;!-- $f( s_i )$ --&gt; &lt;img style=&quot;transform: translateY(0.1em); background: white;&quot; src=&quot;https://render.githubusercontent.com/render/math?math=f(%20s_i%20)&quot; /&gt; is the sigmoid function , &lt;!-- $f = \frac{1}{1+e^{-x}}$ --&gt; &lt;img style=&quot;transform: translateY(0.1em); background: white;&quot; src=&quot;https://render.githubusercontent.com/render/math?math=f%20%3D%20%5Cfrac%7B1%7D%7B1%2Be%5E%7B-x%7D%7D&quot; /&gt;  ,&lt;!-- $\frac {df}{dx} = \frac{e^{-x}}{(1+e^{-x})^2} = f ( 1- f )$ --&gt; &lt;img style=&quot;transform: translateY(0.1em); background: white;&quot; src=&quot;https://render.githubusercontent.com/render/math?math=%5Cfrac%20%7Bdf%7D%7Bdx%7D%20%3D%20%5Cfrac%7Be%5E%7B-x%7D%7D%7B(1%2Be%5E%7B-x%7D)%5E2%7D%20%3D%20f%20(%201-%20f%20)&quot; /&gt;&lt;/p&gt;</content><author><name>Paul Le</name></author><summary type="html">Bounding Boxes</summary></entry><entry><title type="html">Move linux system from one SSD to another</title><link href="http://localhost:4000/Move-linux.html" rel="alternate" type="text/html" title="Move linux system from one SSD to another" /><published>2020-12-04T00:00:00-06:00</published><updated>2020-12-04T00:00:00-06:00</updated><id>http://localhost:4000/Move-linux</id><content type="html" xml:base="http://localhost:4000/Move-linux.html">&lt;h3 id=&quot;what-we-need-to-transfer-the-system&quot;&gt;What We Need To Transfer The System&lt;/h3&gt;
 
 &lt;ul&gt;
   &lt;li&gt;
