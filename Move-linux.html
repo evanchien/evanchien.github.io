@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html class="">
+<head>
+  <meta charset="UTF-8">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Personal portfolio, Evan Chien, Display technologies, Robotics">
+  <meta rel="author" href="">
+  <meta rel="publisher" href="">
+
+  <title>
+    
+      Move linux system from one SSD to another | Evan's Personal page
+    
+  </title>
+
+  <link rel="stylesheet" href="/assets/css/all.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <!-- Use Atom -->
+  <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Evan's Personal page" />
+
+  <script type="text/javascript" async
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+
+  
+
+
+  <!-- Use Jekyll SEO plugin -->
+  <!-- Begin Jekyll SEO tag v2.4.0 -->
+<title>Move linux system from one SSD to another | Evan’s Personal page</title>
+<meta name="generator" content="Jekyll v3.6.2" />
+<meta property="og:title" content="Move linux system from one SSD to another" />
+<meta name="author" content="Paul Le" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="What We Need To Transfer The System" />
+<meta property="og:description" content="What We Need To Transfer The System" />
+<link rel="canonical" href="http://localhost:4000/Move-linux.html" />
+<meta property="og:url" content="http://localhost:4000/Move-linux.html" />
+<meta property="og:site_name" content="Evan’s Personal page" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-12-04T00:00:00-06:00" />
+<script type="application/ld+json">
+{"@type":"BlogPosting","url":"http://localhost:4000/Move-linux.html","dateModified":"2020-12-04T00:00:00-06:00","datePublished":"2020-12-04T00:00:00-06:00","headline":"Move linux system from one SSD to another","author":{"@type":"Person","name":"Paul Le"},"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/Move-linux.html"},"description":"What We Need To Transfer The System","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+</head>
+<body>
+
+<div class="site-container">
+
+  <header>
+  <div class="logo">
+    <a href="/">Evan's Personal page</a>
+  </div>
+  <nav>
+    
+      <a href="/">Projects</a>
+    
+      <a href="/pages/blog.html">Blog</a>
+    
+      <a href="/pages/about.html">About</a>
+    
+      <a href="/pages/contact.html">Contact</a>
+    
+  </nav>
+</header>
+
+
+  <section>
+  <div class="work-container">
+    <h4 class="project-title">Move linux system from one SSD to another</h4>
+    <div class="project-load"><h3 id="what-we-need-to-transfer-the-system">What We Need To Transfer The System</h3>
+
+<ul>
+  <li>
+    <p>Ubuntu Live CD/USB</p>
+  </li>
+  <li>
+    <p>A new HD/SSD at lease equal to the size of the original HD/SSD</p>
+  </li>
+</ul>
+
+<h3 id="copy-the-partitions">Copy The Partitions</h3>
+
+<p>Plug in the USB/CD and the new SSD. Boot the system, adjust the BIOS setting and move the the live USB up to the top. After restart, select “Try Ubuntu”. After login, open one terminal window and use lsblk to locate the current system.</p>
+
+<p>Now, open gparted in the applications list or type sudo gparted in the terminal window. Assuming the new SSD is empty, we can now copy the partitions on the old SSD/HD to new SSD/HD by:</p>
+
+<ol>
+  <li>
+    <p>Select the old SSD/HD from the drop down menu on the right.</p>
+  </li>
+  <li>
+    <p>Right the partitions you want to copy and select copy from the menu.</p>
+  </li>
+  <li>
+    <p>Select the new SSD/HD from the drop down menu on the right. Right click the unallocated partition in the bar and select paste.</p>
+  </li>
+  <li>
+    <p>Repeat this process until all the partition you want are copied. (It can take fairly long depending on how big those partitions are)</p>
+  </li>
+</ol>
+
+<p>For me, I have boot/efi and /recovery partitions on the original SSD to support my dual boot windows. So I also copy them to the new drive. I have a cryped swap partition on the old drive and I copy that one too.</p>
+
+<h3 id="uuid-modification">UUID Modification</h3>
+
+<p>Next thing to do is to modify the UUID listed on the /etc/fstab. Since the UUID of the system partition on the new drive is diffrent from the original, we need to rectify this so we can load the system from the new SSD/HD.</p>
+
+<ol>
+  <li>
+    <p>Type in blkid in terminal. A list of partitions and their UUIDs will show in the screen. This can also be done by right click the partiton in gparted.</p>
+  </li>
+  <li>
+    <p>Open the /etc/fstab, there is a partition mounted to /. Modify its UUID so it is the UUID of the new partition. Save the change and reboot. You should be able to login to the system on the new drive.</p>
+  </li>
+</ol>
+
+<h3 id="issues-i-saw">Issues I Saw</h3>
+
+<p>I have a crypted swap partition on the old drive and I did copy that one over to the new drive. Every time before I log-in the ubuntu, I have to type in the password. This bothers me a lot. So, I remove that swap partition and re-create one. Here are few steps I made after creating the new swap partition.</p>
+
+<ol>
+  <li>
+    <p>sudo mkswap /dev/the_swap_partition</p>
+  </li>
+  <li>
+    <p>A new UUID shows on the screen</p>
+  </li>
+  <li>
+    <p>Update the swap partition in the fstab</p>
+  </li>
+  <li>
+    <p>Reboot. The swap should be automatically mounted. No more password typing for the swap partition.</p>
+  </li>
+</ol>
+</div>
+  </div>
+  
+</section>
+<footer>
+  <div class="footer-wrap">
+    <div class="footer-tagline">
+      <p></p>
+    </div>
+    <div class="social-media">
+      <nav>
+        
+          <a href="http://instagram.com/roxetti" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+        
+          <a href="http://github.com/evanchien" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
+        
+          <a href="http://linkedin.com/in/evanchien" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+        
+          <a href="mailto:#evan.ch.chien@gmail.com" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+        
+      </nav>
+    </div>
+  </div>
+</footer>
+
+
+
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="/assets/js/functions.js"></script>
+</body>
+</html>

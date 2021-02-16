@@ -10,7 +10,7 @@
 
   <title>
     
-      ROC and AUC for classification | Evan's Personal page
+      Loss Functions in YOLOv3 | Evan's Personal page
     
   </title>
 
@@ -31,20 +31,20 @@
 
   <!-- Use Jekyll SEO plugin -->
   <!-- Begin Jekyll SEO tag v2.4.0 -->
-<title>ROC and AUC for classification | Evan’s Personal page</title>
+<title>Loss Functions in YOLOv3 | Evan’s Personal page</title>
 <meta name="generator" content="Jekyll v3.6.2" />
-<meta property="og:title" content="ROC and AUC for classification" />
+<meta property="og:title" content="Loss Functions in YOLOv3" />
 <meta name="author" content="Paul Le" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="ROC" />
-<meta property="og:description" content="ROC" />
-<link rel="canonical" href="http://localhost:4000/ROC-AUC.html" />
-<meta property="og:url" content="http://localhost:4000/ROC-AUC.html" />
+<meta name="description" content="Bounding Boxes" />
+<meta property="og:description" content="Bounding Boxes" />
+<link rel="canonical" href="http://localhost:4000/Loss-Functions.html" />
+<meta property="og:url" content="http://localhost:4000/Loss-Functions.html" />
 <meta property="og:site_name" content="Evan’s Personal page" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2020-11-11T00:00:00-06:00" />
+<meta property="article:published_time" content="2021-02-16T00:00:00-06:00" />
 <script type="application/ld+json">
-{"@type":"BlogPosting","url":"http://localhost:4000/ROC-AUC.html","dateModified":"2020-11-11T00:00:00-06:00","datePublished":"2020-11-11T00:00:00-06:00","headline":"ROC and AUC for classification","author":{"@type":"Person","name":"Paul Le"},"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/ROC-AUC.html"},"description":"ROC","@context":"http://schema.org"}</script>
+{"@type":"BlogPosting","url":"http://localhost:4000/Loss-Functions.html","dateModified":"2021-02-16T00:00:00-06:00","datePublished":"2021-02-16T00:00:00-06:00","headline":"Loss Functions in YOLOv3","author":{"@type":"Person","name":"Paul Le"},"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/Loss-Functions.html"},"description":"Bounding Boxes","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -73,71 +73,30 @@
 
   <section>
   <div class="work-container">
-    <h4 class="project-title">ROC and AUC for classification</h4>
-    <div class="project-load"><h3 id="roc">ROC</h3>
+    <h4 class="project-title">Loss Functions in YOLOv3</h4>
+    <div class="project-load"><h3 id="bounding-boxes">Bounding Boxes</h3>
 
-<p>Receiver Operating Charasteristic Curve</p>
+<p>For bounding boxes, the loss is MSE of 1. delta in center coordinates and 2. delta in width and height.<br />
+$b_x$ = $\sigma$($t_x$) + $c_x$<br />
+$b_y$ = $\sigma$($t_y$) = $c_y$<br />
+$b_w$ = $p_w<script type="math/tex">e^{t_w}$
+$b_h$ = $p_h</script>e^{t_h}$</p>
 
-<ul>
-  <li>
-    <p>X - False Positive Ratio (range from 0 to 1)</p>
+<h3 id="classification">Classification</h3>
 
-    <ul>
-      <li>FP/(FP+TN)</li>
-    </ul>
-  </li>
-  <li>
-    <p>Y - True Positive Ratio (range from 0 to 1)</p>
+<p>In YOLOv3, the loss for classification is Binary Cross-Entropy loss rather than the general Softmax CE. Softmax links the confidence of each class together while Binary CE keeps them independent. We can treat a binary CE as a 2-class CE.</p>
 
-    <ul>
-      <li>TP/(TP+FN)</li>
-    </ul>
-  </li>
-</ul>
+<p>CE = - t $\log( f ( s ) )$ - ( 1 - t ) $\log( 1 - f ( s ) )$ , where s and 1 - f ( s ) are the score for positive and negative, t and (1-t) are the ground truth.</p>
 
-<ol>
-  <li>
-    <p>Sorting the samples from highest confidence score to lowest.</p>
-  </li>
-  <li>
-    <p>Using the confidence score as the threshold. Samples with score higher than the threshold are positive. Otherwise, negative.</p>
-  </li>
-  <li>
-    <p>Connecting the dots we get ROC. The more samples, the smoother the curve.</p>
-  </li>
-  <li>
-    <p>(0,0) is where we set the threshold at 1.0 and (1,1) is threshold at 0.0.</p>
-  </li>
-</ol>
+<p>Applying this to each class, the combined loss for class $C_i$ is as:</p>
 
-<h3 id="auc">AUC</h3>
+<p>CE = $\begin{matrix} - \log(f(s_i))\-\log(1-f(s_i))&amp;  \end{matrix}     \begin{matrix} if\ t_i = 1\ (object)\if \ t_i = 0\ (background)\end{matrix}$ , where f ( $s_i$ ) = $\frac{1}{1 + e^{-s_i}}$</p>
 
-<p>Area Under the Curve</p>
+<p>The gradient respect to the score $s_i$ = $S_1$ can be written as:</p>
 
-<p>The (ROC-)AUC value is equivalent to the probability that a randomly chosen positive example is ranked higher than a randomly chosen negative example.</p>
-
-<ul>
-  <li>
-    <p>AUC = 1: Perfect classifier. There is a threshold perfectly classifies all the samples.</p>
-  </li>
-  <li>
-    <p>AUC = 0.5: Just like flipping a coin.</p>
-  </li>
-  <li>
-    <p>AUO &lt; 0.5: Worse than flipping a coin. Inverse classification gives better results.</p>
-  </li>
-</ul>
-
-<p>PR-AUC</p>
-
-<h3 id="f1">F1</h3>
-<p><img src="https://render.githubusercontent.com/render/math?math=F1 = 2 \frac{precision*recall}{precision%2Brecall}" /></p>
-
-<p><br /><br /></p>
-
-<p>Micro-F1: Sum up all the TP, FP, TN, FN across multi-class and fo F1.</p>
-
-<p>Macro-F1: Sum up TP, FP, TN, FN per class for F1 then do averaging over all the F1s.</p>
+<p>$\frac{\partial }{\partial S_i}$(CE ( f ( $s_i$ ) ) ) = $t_1$ ( f ( $s_1$ ) -1) + (1 - $t_1$) f ( $s_1$ )  ,where f( $s_i$ ) is the sigmoid fn,  ( f = $\frac{1}{1+e^{-x}})$ , $\frac {df}{dx} $ = $\frac{e^{-x}}{(1+e^{-x})^2}$ = f ( 1- f )
+or<br />
+$\frac{\partial }{\partial S_i}$(CE ( f ( $s_i$ ) ) ) = $\begin{matrix} f ( s_i)-1 \f ( s_i)&amp;  \end{matrix}$ $\begin{matrix} if&amp;t_i = 1\if &amp;t_i = 0\end{matrix}$</p>
 
 </div>
   </div>
